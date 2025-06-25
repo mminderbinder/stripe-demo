@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "826943930076",
+    "project_id": "stripe-app-a2dbd",
+    "storage_bucket": "stripe-app-a2dbd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826943930076:android:94f46851735553ad55be19",
+        "android_client_info": {
+          "package_name": "com.example.javastripeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmhxb8YmcmO2hDXLiUyyfNlQmtLcVN2V4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
