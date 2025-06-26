@@ -28,8 +28,7 @@ public class GenericReference<T> {
         this.dbRef = rootRef;
         this.tclass = tclass;
     }
-
-
+    
     public GenericReference(String parentNode, String keyId, String childProperty, Class<T> tclass) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.keepSynced(true);
@@ -85,19 +84,14 @@ public class GenericReference<T> {
         });
     }
 
-    public Task<String> createObjectWithId(T object, String objectId) {
+    public Task<Void> createObjectWithId(T object, String objectId) {
         if (object == null) {
             return Tasks.forException(new IllegalArgumentException("Passed in object is null"));
         }
         if (objectId == null || objectId.isEmpty()) {
             return Tasks.forException(new IllegalArgumentException("Passed objectId is null or empty"));
         }
-        return dbRef.child(objectId).setValue(object).continueWithTask(task -> {
-            if (!task.isSuccessful()) {
-                return Tasks.forException(new Exception("Failed to create object with ID: " + objectId + ". Object details: " + object));
-            }
-            return Tasks.forResult(objectId);
-        });
+        return dbRef.child(objectId).setValue(object);
     }
 
     private void setDynamicIdField(T object, String objectId) {

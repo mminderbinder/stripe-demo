@@ -1,4 +1,4 @@
-package com.example.javastripeapp.data.models.line_item;
+package com.example.javastripeapp.data.models.work_order.line_item;
 
 public class LineItem {
     private final Integer intItemCode;

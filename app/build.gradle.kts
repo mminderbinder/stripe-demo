@@ -49,4 +49,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(platform(libs.firebase.bom))
+    implementation(libs.stripe.android)
+
 }

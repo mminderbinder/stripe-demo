@@ -5,9 +5,14 @@ public class User {
     private String username;
     private String email;
     private String accountType;
+    private String stripeCustomerId;
+    private Boolean hasPaymentMethod;
+    private String stripeAccountId;
+    private Boolean payoutEnabled;
 
     public User() {
-
+        this.hasPaymentMethod = false;
+        this.payoutEnabled = false;
     }
 
     public User(String userId, String username, String email, AccountType accountType) {
@@ -47,5 +52,56 @@ public class User {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    // STRIPE
+    public String getStripeCustomerId() {
+        return stripeCustomerId;
+    }
+
+    public void setStripeCustomerId(String stripeCustomerId) {
+        this.stripeCustomerId = stripeCustomerId;
+    }
+
+    public Boolean getHasPaymentMethod() {
+        return hasPaymentMethod;
+    }
+
+    public void setHasPaymentMethod(Boolean hasPaymentMethod) {
+        this.hasPaymentMethod = hasPaymentMethod;
+    }
+
+    public String getStripeAccountId() {
+        return stripeAccountId;
+    }
+
+    public void setStripeAccountId(String stripeAccountId) {
+        this.stripeAccountId = stripeAccountId;
+    }
+
+    public Boolean getPayoutEnabled() {
+        return payoutEnabled;
+    }
+
+    public void setPayoutEnabled(Boolean payoutEnabled) {
+        this.payoutEnabled = payoutEnabled;
+    }
+
+    // HELPER METHODS
+
+    public boolean isCustomer() {
+        return "CUSTOMER".equals(accountType);
+    }
+
+    public boolean isProvider() {
+        return "PROVIDER".equals(accountType);
+    }
+
+    public boolean canMakePayments() {
+        return isCustomer() && stripeCustomerId != null && hasPaymentMethod != null && hasPaymentMethod;
+    }
+
+    public boolean canReceivePayments() {
+        return isProvider() && payoutEnabled != null && payoutEnabled;
     }
 }

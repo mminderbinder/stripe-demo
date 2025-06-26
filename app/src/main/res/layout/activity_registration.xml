@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:background="@android:color/white"
-    tools:context=".ui.activities.RegistrationActivity">
+    tools:context=".ui.activities.auth_registration.RegistrationActivity">
 
     <TextView
         android:id="@+id/tvRegistrationTitle"

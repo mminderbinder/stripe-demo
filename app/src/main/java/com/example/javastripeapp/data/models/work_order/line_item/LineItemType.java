@@ -1,4 +1,4 @@
-package com.example.javastripeapp.data.models.line_item;
+package com.example.javastripeapp.data.models.work_order.line_item;
 
 public enum LineItemType {
     SERVICE_FEE("100"),
