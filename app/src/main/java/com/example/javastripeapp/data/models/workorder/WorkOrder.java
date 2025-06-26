@@ -1,6 +1,6 @@
-package com.example.javastripeapp.data.models.work_order;
+package com.example.javastripeapp.data.models.workorder;
 
-import com.example.javastripeapp.data.models.work_order.line_item.LineItem;
+import com.example.javastripeapp.data.models.workorder.line_item.LineItem;
 import com.google.firebase.database.ServerValue;
 
 import java.util.Map;

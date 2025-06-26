@@ -13,10 +13,16 @@
         android:theme="@style/Theme.JavaStripeApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activities.auth_registration.RegistrationActivity"
+            android:name=".ui.activities.workorder.WorkOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.auth_registration.MainActivity"
+            android:name=".ui.activities.profile.UserProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.registration.RegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.login.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

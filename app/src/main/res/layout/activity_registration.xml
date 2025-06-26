@@ -5,9 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
     android:background="@android:color/white"
-    tools:context=".ui.activities.auth_registration.RegistrationActivity">
+    android:padding="24dp"
+    tools:context=".ui.activities.registration.RegistrationActivity">
 
     <TextView
         android:id="@+id/tvRegistrationTitle"
@@ -15,21 +15,21 @@
         android:layout_height="wrap_content"
         android:text="Create Account"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/tilUsername"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilUsername"
-        android:layout_width="0dp"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:hint="Username"
         app:layout_constraintBottom_toTopOf="@+id/tilEmail"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRegistrationTitle">
 
@@ -42,15 +42,15 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Email Input -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilEmail"
-        android:layout_width="0dp"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:hint="Email"
         app:layout_constraintBottom_toTopOf="@+id/tilPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilUsername">
 
@@ -65,15 +65,16 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilPassword"
-        android:layout_width="0dp"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:hint="Password"
-        app:passwordToggleEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/tilConfirmPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
+        app:layout_constraintTop_toBottomOf="@+id/tilEmail"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
@@ -86,15 +87,16 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilConfirmPassword"
-        android:layout_width="0dp"
+        style="@style/Widget.App.TextInputLayout"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:hint="Confirm Password"
-        app:passwordToggleEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/tvAccountTypeLabel"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword">
+        app:layout_constraintTop_toBottomOf="@+id/tilPassword"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etConfirmPassword"
@@ -105,26 +107,25 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Account Type Label -->
     <TextView
         android:id="@+id/tvAccountTypeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Account Type:"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/rgAccountType"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/tilConfirmPassword"
         app:layout_constraintTop_toBottomOf="@+id/tilConfirmPassword" />
 
     <RadioGroup
         android:id="@+id/rgAccountType"
-        android:layout_width="0dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btnRegister"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAccountTypeLabel">
 
@@ -133,8 +134,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Customer"
-            android:checked="true" />
+            android:checked="true"
+            android:text="Customer" />
 
         <RadioButton
             android:id="@+id/rbProvider"
@@ -145,21 +146,20 @@
 
     </RadioGroup>
 
-    <!-- Register Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
-        android:layout_width="0dp"
+        style="@style/Widget.App.Button"
+        android:layout_width="300dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="16dp"
         android:text="Create Account"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnBackToLogin"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rgAccountType" />
 
-    <!-- Back to Login Text Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBackToLogin"
         style="@style/Widget.Material3.Button.TextButton"
@@ -169,6 +169,7 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
