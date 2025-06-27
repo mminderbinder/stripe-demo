@@ -9,15 +9,15 @@ public enum AccountType {
     @Override
     public String toString() {
         return switch (this) {
-            case CUSTOMER -> "Customer";
-            case PROVIDER -> "Provider";
+            case CUSTOMER -> "CUSTOMER";
+            case PROVIDER -> "PROVIDER";
         };
     }
 
     public static AccountType fromString(String accountType) {
         return switch (accountType) {
-            case "Customer" -> CUSTOMER;
-            case "Provider" -> PROVIDER;
+            case "CUSTOMER" -> CUSTOMER;
+            case "PROVIDER" -> PROVIDER;
             default -> null;
         };
     }

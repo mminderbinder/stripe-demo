@@ -1,5 +1,7 @@
 package com.example.javastripeapp.data.models.user;
 
+import com.google.firebase.database.Exclude;
+
 public class User {
     private String userId;
     private String username;
@@ -15,11 +17,10 @@ public class User {
         this.payoutEnabled = false;
     }
 
-    public User(String userId, String username, String email, AccountType accountType) {
-        this.userId = userId;
+    public User(String username, String email, AccountType accountType) {
         this.username = username;
         this.email = email;
-        this.accountType = accountType.name();
+        this.accountType = accountType.toString();
     }
 
     public String getUserId() {
@@ -89,18 +90,22 @@ public class User {
 
     // HELPER METHODS
 
+    @Exclude
     public boolean isCustomer() {
         return "CUSTOMER".equals(accountType);
     }
 
+    @Exclude
     public boolean isProvider() {
         return "PROVIDER".equals(accountType);
     }
 
+    @Exclude
     public boolean canMakePayments() {
         return isCustomer() && stripeCustomerId != null && hasPaymentMethod != null && hasPaymentMethod;
     }
 
+    @Exclude
     public boolean canReceivePayments() {
         return isProvider() && payoutEnabled != null && payoutEnabled;
     }

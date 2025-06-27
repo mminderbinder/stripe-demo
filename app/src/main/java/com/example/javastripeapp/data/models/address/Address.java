@@ -9,16 +9,18 @@ public class Address {
     private String city;
     private String province;
     private String postalCode;
+    private String userId;
 
     public Address() {
 
     }
 
-    public Address(String line1, String city, String province, String postalCode) {
+    public Address(String line1, String city, String province, String postalCode, String userId) {
         this.line1 = line1;
         this.city = city;
         this.province = province;
         this.postalCode = postalCode;
+        this.userId = userId;
     }
 
     public Map<String, Object> toStripeAddressMap() {
@@ -73,5 +75,13 @@ public class Address {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

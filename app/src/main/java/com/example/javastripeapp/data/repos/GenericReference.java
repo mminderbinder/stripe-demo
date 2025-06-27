@@ -28,7 +28,7 @@ public class GenericReference<T> {
         this.dbRef = rootRef;
         this.tclass = tclass;
     }
-    
+
     public GenericReference(String parentNode, String keyId, String childProperty, Class<T> tclass) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.keepSynced(true);
@@ -109,6 +109,7 @@ public class GenericReference<T> {
         return switch (tclass.getSimpleName()) {
             case "WorkOrder" -> "workOrderId";
             case "User" -> "userId";
+            case "Address" -> "addressId";
             default -> "fixDynamicId";
         };
     }

@@ -2,19 +2,28 @@ package com.example.javastripeapp.ui.activities.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.javastripeapp.R;
+import com.example.javastripeapp.data.models.user.AccountType;
+import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.databinding.ActivityRegistrationBinding;
 import com.example.javastripeapp.ui.activities.login.MainActivity;
+import com.example.javastripeapp.ui.activities.profile.UserProfileActivity;
+import com.example.javastripeapp.utils.TaskUtils;
 
 public class RegistrationActivity extends AppCompatActivity {
+    private static final String TAG = "RegistrationActivity";
     private ActivityRegistrationBinding binding;
+    private RegistrationViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +37,74 @@ public class RegistrationActivity extends AppCompatActivity {
             return insets;
         });
         setUpClickListeners();
+
+        viewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
     }
 
     private void setUpClickListeners() {
+
+        binding.btnRegister.setOnClickListener(v -> {
+            validateFields();
+        });
         binding.btnBackToLogin.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
+    }
+
+
+    private void validateFields() {
+        String username = String.valueOf(binding.etUsername.getText()).trim();
+        String email = String.valueOf(binding.etEmail.getText()).trim();
+        String password = String.valueOf(binding.etPassword.getText()).trim();
+        String confirmPassword = String.valueOf(binding.etConfirmPassword.getText()).trim();
+
+        if (username.isEmpty()) {
+            showToast("Please enter a username");
+            return;
+        }
+        if (email.isEmpty()) {
+            showToast("Please enter your email");
+            return;
+        }
+        if (password.isEmpty()) {
+            showToast("Please enter your password");
+            return;
+        }
+        if (confirmPassword.isEmpty()) {
+            showToast("Please confirm your password");
+            return;
+        }
+        if (!password.equals(confirmPassword)) {
+            showToast("Passwords do not match");
+            return;
+        }
+        boolean isCustomer = binding.rbCustomer.isChecked();
+        AccountType accountType = isCustomer ? AccountType.CUSTOMER : AccountType.PROVIDER;
+
+        User newUser = new User(username, email, accountType);
+        createUser(newUser, password);
+    }
+
+    private void createUser(User user, String password) {
+        viewModel.createUserInAuth(user.getEmail(), password).continueWithTask(authTask -> {
+            if (!authTask.isSuccessful()) {
+                return TaskUtils.forTaskException(authTask, "Failed to create user in Firebase Auth");
+            }
+            user.setUserId(authTask.getResult());
+
+            return viewModel.createUserInDatabase(user).addOnSuccessListener(unused -> {
+                Intent intent = new Intent(this, UserProfileActivity.class);
+                startActivity(intent);
+
+            }).addOnFailureListener(e -> {
+                Log.e(TAG, "Failed to create new user", e);
+                Toast.makeText(this, "Failed to create user. Please try later or contact support", Toast.LENGTH_LONG).show();
+            });
+        });
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
