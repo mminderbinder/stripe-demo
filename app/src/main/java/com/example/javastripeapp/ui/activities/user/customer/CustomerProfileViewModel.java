@@ -1,25 +1,34 @@
 package com.example.javastripeapp.ui.activities.user.customer;
 
-import androidx.lifecycle.ViewModel;
-
 import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.user.User;
-import com.example.javastripeapp.data.repos.AddressRepo;
 import com.example.javastripeapp.data.repos.UserRepo;
+import com.example.javastripeapp.ui.activities.user.BaseProfileViewModel;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
-public class CustomerProfileViewModel extends ViewModel {
+public class CustomerProfileViewModel extends BaseProfileViewModel {
+
     private static final String TAG = "CustomerProfileViewModel";
     private final UserRepo userRepo = new UserRepo();
-    private final AddressRepo addressRepo = new AddressRepo();
+    private User currentUser;
 
-    public Task<User> fetchUserById(String userId) {
-        return userRepo.fetchUserById(userId);
+    @Override
+    public Task<List<Address>> fetchUserAddresses(String userId) {
+        return super.fetchUserAddresses(userId);
     }
 
-    public Task<List<Address>> fetchUserAddresses(String userId) {
-        return addressRepo.fetchUserAddresses(userId);
+    @Override
+    public void signOutUser() {
+        super.signOutUser();
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

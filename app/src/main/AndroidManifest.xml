@@ -13,6 +13,9 @@
         android:theme="@style/Theme.JavaStripeApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.user.provider.ProviderProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.workorder.WorkOrderActivity"
             android:exported="false" />
         <activity

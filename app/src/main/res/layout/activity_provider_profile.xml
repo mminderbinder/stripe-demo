@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.user.provider.ProviderProfileActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Profile"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_profile"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/cat"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:shapeAppearanceOverlay="@style/circleImageView" />
+
+    <TextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_profile" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cursive"
+        android:text="Username"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_welcome" />
+
+    <Button
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:icon="@drawable/outline_account_circle_24"
+        android:text="Logout" />
+
+    <TextView
+        android:id="@+id/tv_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Started"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_logout" />
+
+    <Button
+        android:id="@+id/btn_provider_action"
+        style="@style/Widget.App.Button"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="View Jobs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_action" />
+</androidx.constraintlayout.widget.ConstraintLayout>

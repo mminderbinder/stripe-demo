@@ -13,18 +13,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.models.user.User;
-import com.example.javastripeapp.databinding.ActivityUserProfileBinding;
+import com.example.javastripeapp.databinding.ActivityCustomerProfileBinding;
+import com.example.javastripeapp.ui.activities.login.MainActivity;
 
 public class CustomerProfileActivity extends AppCompatActivity {
     private static final String TAG = "CustomerProfileActivity";
-    private ActivityUserProfileBinding binding;
+    private ActivityCustomerProfileBinding binding;
     private CustomerProfileViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityUserProfileBinding.inflate(getLayoutInflater());
+        binding = ActivityCustomerProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -36,19 +37,21 @@ public class CustomerProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         if (intent != null) {
-            if (intent.hasExtra("USER_ID")) {
-                String userId = intent.getStringExtra("USER_ID");
-                retrieveUser(userId);
+            if (intent.hasExtra("CURRENT_USER")) {
+                User user = intent.getParcelableExtra("CURRENT_USER");
+                if (user == null) return;
+                viewModel.setCurrentUser(user);
+                setUpProfileUI(user);
             }
+            setUpClickListeners();
         }
     }
 
-    private void retrieveUser(String userId) {
-        viewModel.fetchUserById(userId)
-                .addOnSuccessListener(this::setUpProfileUI)
-                .addOnFailureListener(e -> {
+    private void setUpClickListeners() {
+        binding.btnCustomerAction.setOnClickListener(v -> {
 
-                });
+        });
+        binding.btnLogout.setOnClickListener(v -> signOutUser());
     }
 
     private void setUpProfileUI(User currentUser) {
@@ -56,6 +59,12 @@ public class CustomerProfileActivity extends AppCompatActivity {
         binding.tvUsername.setText(username);
     }
 
+    private void signOutUser() {
+        Intent intent = new Intent(this, MainActivity.class);
+        viewModel.signOutUser();
+        startActivity(intent);
+        finish();
+    }
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();

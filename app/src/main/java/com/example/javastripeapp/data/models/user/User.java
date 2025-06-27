@@ -1,8 +1,13 @@
 package com.example.javastripeapp.data.models.user;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.google.firebase.database.Exclude;
 
-public class User {
+public class User implements Parcelable {
     private String userId;
     private String username;
     private String email;
@@ -108,5 +113,50 @@ public class User {
     @Exclude
     public boolean canReceivePayments() {
         return isProvider() && payoutEnabled != null && payoutEnabled;
+    }
+
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(userId);
+        dest.writeString(username);
+        dest.writeString(email);
+        dest.writeString(accountType);
+        dest.writeString(stripeCustomerId);
+        dest.writeByte((byte) (hasPaymentMethod == null ? 0 : hasPaymentMethod ? 1 : 2));
+        dest.writeString(stripeAccountId);
+        dest.writeByte((byte) (payoutEnabled == null ? 0 : payoutEnabled ? 1 : 2));
+    }
+
+    protected User(Parcel in) {
+        userId = in.readString();
+        username = in.readString();
+        email = in.readString();
+        accountType = in.readString();
+        stripeCustomerId = in.readString();
+        byte tmpHasPaymentMethod = in.readByte();
+        hasPaymentMethod = tmpHasPaymentMethod == 0 ? null : tmpHasPaymentMethod == 1;
+        stripeAccountId = in.readString();
+        byte tmpPayoutEnabled = in.readByte();
+        payoutEnabled = tmpPayoutEnabled == 0 ? null : tmpPayoutEnabled == 1;
+    }
+
+    @Exclude
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Exclude
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

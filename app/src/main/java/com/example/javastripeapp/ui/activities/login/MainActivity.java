@@ -13,9 +13,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.javastripeapp.R;
+import com.example.javastripeapp.data.models.user.AccountType;
 import com.example.javastripeapp.databinding.ActivityMainBinding;
 import com.example.javastripeapp.ui.activities.registration.RegistrationActivity;
 import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
+import com.example.javastripeapp.ui.activities.user.provider.ProviderProfileActivity;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,16 +51,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void retrieveFirebaseUser() {
-        viewModel.retrieveFirebaseUser().addOnSuccessListener(user -> {
-            String userId = user.getUid();
-            Intent intent = new Intent(this, CustomerProfileActivity.class);
-            intent.putExtra("USER_ID", userId);
+        viewModel.retrieveFirebaseUser()
+                .addOnSuccessListener(user -> retrieveUserFromDatabase(user.getUid()));
+    }
+
+    private void retrieveUserFromDatabase(String userId) {
+        viewModel.getUserFromDatabase(userId).addOnSuccessListener(user -> {
+            AccountType accountType = AccountType.fromString(user.getAccountType());
+            if (accountType == null) return;
+
+            Intent intent;
+            if (accountType.equals(AccountType.CUSTOMER)) {
+                intent = new Intent(this, CustomerProfileActivity.class);
+            } else {
+                intent = new Intent(this, ProviderProfileActivity.class);
+            }
+            intent.putExtra("CURRENT_USER", user);
             startActivity(intent);
+            finish();
+
         }).addOnFailureListener(e -> {
-            Log.e(TAG, "Failed to retrieve Firebase user", e);
-            showToast("An error occurred. Please try later or contact support");
+            Log.e(TAG, "Failed to retrieve user from database", e);
+            showToast("Failed to retrieve user. Please try later or contact support");
         });
     }
+
 
     private void validateAndSignIn() {
         String email = String.valueOf(binding.etEmail.getText()).trim();
@@ -79,9 +96,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.signInUser(email, password).addOnSuccessListener(authResult -> {
             FirebaseUser user = authResult.getUser();
             if (user != null) {
-                Intent intent = new Intent(this, CustomerProfileActivity.class);
-                intent.putExtra("USER_ID", user.getUid());
-                startActivity(intent);
+                retrieveUserFromDatabase(user.getUid());
             } else {
                 showToast("No user signed in! Please try later or contact support");
             }
