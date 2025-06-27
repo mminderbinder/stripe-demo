@@ -17,7 +17,7 @@ public class UserRepo {
         return userRef.createObjectWithId(newUser, userId);
     }
 
-    public Task<User> getUserById(String userId) {
+    public Task<User> fetchUserById(String userId) {
         return userRef.getObject(userId);
     }
 

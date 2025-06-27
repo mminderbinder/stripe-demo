@@ -17,7 +17,7 @@ import com.example.javastripeapp.data.models.user.AccountType;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.databinding.ActivityRegistrationBinding;
 import com.example.javastripeapp.ui.activities.login.MainActivity;
-import com.example.javastripeapp.ui.activities.profile.UserProfileActivity;
+import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
 import com.example.javastripeapp.utils.TaskUtils;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -94,7 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
             user.setUserId(authTask.getResult());
 
             return viewModel.createUserInDatabase(user).addOnSuccessListener(unused -> {
-                Intent intent = new Intent(this, UserProfileActivity.class);
+                Intent intent = new Intent(this, CustomerProfileActivity.class);
                 startActivity(intent);
 
             }).addOnFailureListener(e -> {

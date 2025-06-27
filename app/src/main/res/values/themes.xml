@@ -16,4 +16,9 @@
     <style name="Widget.App.Button" parent="Widget.Material3.Button">
         <item name="layout_constraintWidth">300dp</item>
     </style>
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

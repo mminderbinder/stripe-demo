@@ -14,8 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.javastripeapp.R;
 import com.example.javastripeapp.databinding.ActivityMainBinding;
-import com.example.javastripeapp.ui.activities.profile.UserProfileActivity;
 import com.example.javastripeapp.ui.activities.registration.RegistrationActivity;
+import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private void retrieveFirebaseUser() {
         viewModel.retrieveFirebaseUser().addOnSuccessListener(user -> {
             String userId = user.getUid();
-            Intent intent = new Intent(this, UserProfileActivity.class);
+            Intent intent = new Intent(this, CustomerProfileActivity.class);
             intent.putExtra("USER_ID", userId);
             startActivity(intent);
         }).addOnFailureListener(e -> {
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.signInUser(email, password).addOnSuccessListener(authResult -> {
             FirebaseUser user = authResult.getUser();
             if (user != null) {
-                Intent intent = new Intent(this, UserProfileActivity.class);
+                Intent intent = new Intent(this, CustomerProfileActivity.class);
                 intent.putExtra("USER_ID", user.getUid());
                 startActivity(intent);
             } else {

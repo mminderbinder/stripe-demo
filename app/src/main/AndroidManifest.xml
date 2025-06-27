@@ -16,7 +16,7 @@
             android:name=".ui.activities.workorder.WorkOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.profile.UserProfileActivity"
+            android:name=".ui.activities.user.customer.CustomerProfileActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.registration.RegistrationActivity"
