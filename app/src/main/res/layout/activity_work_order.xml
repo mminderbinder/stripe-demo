@@ -90,13 +90,24 @@
         android:id="@+id/tv_total_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total"
+        android:text="Subtotal"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-        app:layout_constraintBottom_toTopOf="@+id/tv_total"
+        app:layout_constraintBottom_toTopOf="@+id/tv_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_items" />
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_total_heading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_total"
+        android:text="$4.33 service fee (plus applicable taxes at checkout)"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
 
     <TextView
         android:id="@+id/tv_total"
@@ -108,7 +119,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_total_heading" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_info" />
 
     <Button
         android:id="@+id/btn_order"

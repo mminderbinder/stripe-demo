@@ -1,5 +1,6 @@
 package com.example.javastripeapp.data.models.workorder;
 
+import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.workorder.line_item.LineItem;
 import com.google.firebase.database.ServerValue;
 
@@ -14,16 +15,14 @@ public class WorkOrder {
     private Map<String, LineItem> lineItemMap;
     private String workOrderStatus;
     private Double totalAmount;
-    private String jobAddress;
+    private Address jobAddress;
 
     public WorkOrder() {
 
     }
 
-    public WorkOrder(String workOrderId, String customerId, String providerId, Map<String, LineItem> lineItemMap, WorkOrderStatus workOrderStatus, Double totalAmount, String jobAddress) {
-        this.workOrderId = workOrderId;
+    public WorkOrder(String customerId, Map<String, LineItem> lineItemMap, WorkOrderStatus workOrderStatus, Double totalAmount, Address jobAddress) {
         this.customerId = customerId;
-        this.providerId = providerId;
         this.lineItemMap = lineItemMap;
         this.createdAt = ServerValue.TIMESTAMP;
         this.updatedAt = ServerValue.TIMESTAMP;
@@ -96,11 +95,11 @@ public class WorkOrder {
         this.totalAmount = totalAmount;
     }
 
-    public String getJobAddress() {
+    public Address getJobAddress() {
         return jobAddress;
     }
 
-    public void setJobAddress(String jobAddress) {
+    public void setJobAddress(Address jobAddress) {
         this.jobAddress = jobAddress;
     }
 }
