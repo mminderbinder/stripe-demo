@@ -35,20 +35,8 @@ public class CustomerProfileActivity extends AppCompatActivity {
             return insets;
         });
         viewModel = new ViewModelProvider(this).get(CustomerProfileViewModel.class);
-
-        Intent intent = getIntent();
-
-        if (intent != null) {
-            if (intent.hasExtra("CURRENT_USER")) {
-                User user = intent.getParcelableExtra("CURRENT_USER");
-                if (user == null) return;
-                viewModel.setCurrentUser(user);
-                setUpProfileUI(user);
-            } else {
-                retrieveUser();
-            }
-            setUpClickListeners();
-        }
+        retrieveUser();
+        setUpClickListeners();
     }
 
     private void setUpClickListeners() {
@@ -57,7 +45,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
     }
 
     private void retrieveUser() {
-        viewModel.retrieveUserById()
+        viewModel.retrieveUser()
                 .addOnSuccessListener(this::setUpProfileUI)
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Failed to retrieve user from database");
@@ -73,7 +61,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
     private void startWorkOrderActivity() {
         User currentUser = viewModel.getCurrentUser();
         Intent intent = new Intent(this, WorkOrderActivity.class);
-        intent.putExtra("CURRENT_USER", currentUser);
+        intent.putExtra("USER_ID", currentUser.getUserId());
         startActivity(intent);
     }
 

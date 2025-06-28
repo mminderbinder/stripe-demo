@@ -35,20 +35,7 @@ public class ProviderProfileActivity extends AppCompatActivity {
             return insets;
         });
         viewModel = new ViewModelProvider(this).get(ProviderViewModel.class);
-
-        Intent intent = getIntent();
-
-        if (intent != null) {
-            if (intent.hasExtra("CURRENT_USER")) {
-                User user = intent.getParcelableExtra("CURRENT_USER");
-                if (user == null) return;
-                viewModel.setCurrentUser(user);
-                setUpProfileUI(user);
-                setUpClickListeners();
-            } else {
-                retrieveUser();
-            }
-        }
+        retrieveUser();
     }
 
     private void setUpClickListeners() {
@@ -59,8 +46,11 @@ public class ProviderProfileActivity extends AppCompatActivity {
     }
 
     private void retrieveUser() {
-        viewModel.retrieveUserById()
-                .addOnSuccessListener(this::setUpProfileUI)
+        viewModel.retrieveUser()
+                .addOnSuccessListener(user -> {
+                    setUpProfileUI(user);
+                    setUpClickListeners();
+                })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Failed to retrieve user from database");
                     showToast("Failed to retrieve user!");

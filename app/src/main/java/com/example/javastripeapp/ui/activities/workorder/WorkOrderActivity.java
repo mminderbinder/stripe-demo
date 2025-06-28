@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.models.address.Address;
-import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.databinding.ActivityWorkOrderBinding;
 import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
 
@@ -38,17 +38,7 @@ public class WorkOrderActivity extends AppCompatActivity {
             return insets;
         });
         viewModel = new ViewModelProvider(this).get(WorkOrderViewModel.class);
-
-        Intent intent = getIntent();
-        if (intent != null) {
-            if (intent.hasExtra("CURRENT_USER")) {
-                User currentUser = intent.getParcelableExtra("CURRENT_USER");
-                if (currentUser != null) {
-                    setUpClickListeners();
-                    retrieveAddresses(currentUser.getUserId());
-                }
-            }
-        }
+        retrieveUser();
     }
 
     private void setUpClickListeners() {
@@ -59,6 +49,16 @@ public class WorkOrderActivity extends AppCompatActivity {
         binding.btnCancel.setOnClickListener(v -> {
             Intent intent = new Intent(this, CustomerProfileActivity.class);
             startActivity(intent);
+        });
+    }
+
+    private void retrieveUser() {
+        viewModel.retrieveCurrentUser().addOnSuccessListener(user -> {
+            setUpClickListeners();
+            retrieveAddresses(user.getUserId());
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Failed to retrieve current user");
+            showToast("Failed to load user. Please try again later");
         });
     }
 
@@ -81,5 +81,9 @@ public class WorkOrderActivity extends AppCompatActivity {
             addressArrayAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             binding.acAddresses.setAdapter(addressArrayAdapter);
         }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }

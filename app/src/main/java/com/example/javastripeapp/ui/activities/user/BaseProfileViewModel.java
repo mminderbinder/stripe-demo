@@ -7,7 +7,6 @@ import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.data.repos.AddressRepo;
 import com.example.javastripeapp.data.repos.AuthRepo;
 import com.example.javastripeapp.data.repos.UserRepo;
-import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;
@@ -18,13 +17,8 @@ public class BaseProfileViewModel extends ViewModel {
     private final UserRepo userRepo = new UserRepo();
     private final AddressRepo addressRepo = new AddressRepo();
 
-    public Task<User> retrieveUserById() {
-        return authRepo.fetchCurrentUserUid().continueWithTask(task -> {
-            if (!task.isSuccessful()) {
-                return TaskUtils.forTaskException(task, "Failed to retrieve current user Uid");
-            }
-            return userRepo.fetchUserById(task.getResult());
-        });
+    public Task<User> retrieveUser() {
+        return userRepo.fetchUserInDatabase();
     }
 
     public Task<List<Address>> fetchUserAddresses(String userId) {

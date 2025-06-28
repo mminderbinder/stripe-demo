@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void retrieveFirebaseUser() {
         viewModel.retrieveFirebaseUser()
-                .addOnSuccessListener(user -> retrieveUserFromDatabase(user.getUid()));
+                .addOnSuccessListener(user -> retrieveUserFromDatabase());
     }
 
-    private void retrieveUserFromDatabase(String userId) {
-        viewModel.getUserFromDatabase(userId).addOnSuccessListener(user -> {
+    private void retrieveUserFromDatabase() {
+        viewModel.getUserFromDatabase().addOnSuccessListener(user -> {
             AccountType accountType = AccountType.fromString(user.getAccountType());
             if (accountType == null) return;
 
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 intent = new Intent(this, ProviderProfileActivity.class);
             }
-            intent.putExtra("CURRENT_USER", user);
             startActivity(intent);
             finish();
 
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.signInUser(email, password).addOnSuccessListener(authResult -> {
             FirebaseUser user = authResult.getUser();
             if (user != null) {
-                retrieveUserFromDatabase(user.getUid());
+                retrieveUserFromDatabase();
             } else {
                 showToast("No user signed in! Please try later or contact support");
             }

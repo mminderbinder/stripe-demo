@@ -22,7 +22,7 @@ public class LoginViewModel extends ViewModel {
         return authRepo.fetchCurrentFirebaseUser();
     }
 
-    public Task<User> getUserFromDatabase(String userId) {
-        return userRepo.fetchUserById(userId);
+    public Task<User> getUserFromDatabase() {
+        return userRepo.fetchUserInDatabase();
     }
 }
