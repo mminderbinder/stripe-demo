@@ -1,5 +1,9 @@
 package com.example.javastripeapp.data.models.address;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.Exclude;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +37,7 @@ public class Address {
         return address;
     }
 
+    @Exclude
     public String getFormattedAddress() {
         return line1 + ", " + city + ", " + province + " " + postalCode;
     }
@@ -83,5 +88,11 @@ public class Address {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getFormattedAddress();
     }
 }

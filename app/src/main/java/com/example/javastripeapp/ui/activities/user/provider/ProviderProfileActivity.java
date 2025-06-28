@@ -2,6 +2,7 @@ package com.example.javastripeapp.ui.activities.user.provider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -44,6 +45,8 @@ public class ProviderProfileActivity extends AppCompatActivity {
                 viewModel.setCurrentUser(user);
                 setUpProfileUI(user);
                 setUpClickListeners();
+            } else {
+                retrieveUser();
             }
         }
     }
@@ -53,6 +56,15 @@ public class ProviderProfileActivity extends AppCompatActivity {
 
         });
         binding.btnLogout.setOnClickListener(v -> signOutUser());
+    }
+
+    private void retrieveUser() {
+        viewModel.retrieveUserById()
+                .addOnSuccessListener(this::setUpProfileUI)
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to retrieve user from database");
+                    showToast("Failed to retrieve user!");
+                });
     }
 
     private void setUpProfileUI(User currentUser) {

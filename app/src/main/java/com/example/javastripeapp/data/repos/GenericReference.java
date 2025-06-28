@@ -176,7 +176,10 @@ public class GenericReference<T> {
 
     private Task<List<T>> processSnapshot(Task<DataSnapshot> task) {
         if (!task.isSuccessful()) {
-            return Tasks.forException(new Exception("Failed to process snapshot"));
+            Exception originalException = task.getException();
+            Log.e(TAG, "Database query failed", originalException);
+            return Tasks.forException(originalException != null ? originalException :
+                    new Exception("Unknown database error"));
         }
         List<T> resultList = new ArrayList<>();
         DataSnapshot snapshot = task.getResult();

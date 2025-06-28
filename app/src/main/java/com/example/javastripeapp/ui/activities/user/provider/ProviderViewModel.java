@@ -14,6 +14,11 @@ public class ProviderViewModel extends BaseProfileViewModel {
     private User currentUser;
 
     @Override
+    public Task<User> retrieveUserById() {
+        return super.retrieveUserById();
+    }
+
+    @Override
     public Task<List<Address>> fetchUserAddresses(String userId) {
         return super.fetchUserAddresses(userId);
     }
