@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="24dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Material3.CardView.Outlined"
+        style="@style/Widget.Material3.CardView.Filled"
+        app:cardCornerRadius="8dp"
         android:id="@+id/cv_work_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,29 +23,53 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_title_createdAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date Created:"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
+
+            <TextView
                 android:id="@+id/tv_createdAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date"
-                android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+            <TextView
+                android:id="@+id/tv_title_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Job Location:"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
 
             <TextView
                 android:id="@+id/tv_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55 Vanessa Ave. Whitby Ontario"
+                android:text="Location"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+            <TextView
+                android:id="@+id/tv_title_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Total Earnings:"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
 
             <TextView
                 android:id="@+id/tv_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$24.00"
+                android:text="Total"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
             <Button
                 style="@style/Widget.Material3.Button.TextButton"
                 android:id="@+id/btn_view"
+                android:textAllCaps="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="View" />

@@ -16,7 +16,7 @@ import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.databinding.ActivityCustomerProfileBinding;
 import com.example.javastripeapp.ui.activities.login.MainActivity;
-import com.example.javastripeapp.ui.activities.workorder.WorkOrderActivity;
+import com.example.javastripeapp.ui.activities.workorder.create.WorkOrderActivity;
 
 public class CustomerProfileActivity extends AppCompatActivity {
     private static final String TAG = "CustomerProfileActivity";

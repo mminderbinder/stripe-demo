@@ -1,4 +1,4 @@
-package com.example.javastripeapp.ui.activities.workorder;
+package com.example.javastripeapp.ui.activities.workorder.create;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -115,7 +115,7 @@ public class WorkOrderActivity extends AppCompatActivity {
 
     private void showPrice() {
         Double total = viewModel.workOrderPrice.getValue();
-        binding.tvTotal.setText(String.format(Locale.getDefault(), "$%.2f", total));
+        binding.tvTitleTotal.setText(String.format(Locale.getDefault(), "$%.2f", total));
     }
 
     private void validateOrder() {

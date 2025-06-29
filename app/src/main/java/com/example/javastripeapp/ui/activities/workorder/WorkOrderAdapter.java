@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
 import com.example.javastripeapp.databinding.ItemWorkOrderBinding;
+import com.example.javastripeapp.ui.activities.workorder.view.ViewWorkOrderActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +58,7 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.View
 
             binding.tvCreatedAt.setText(readableDate);
             binding.tvLocation.setText(addressString);
-            binding.tvTotal.setText(totalString);
+            binding.tvTotal.setText("$" + totalString);
 
             int currentPosition = getBindingAdapterPosition();
 

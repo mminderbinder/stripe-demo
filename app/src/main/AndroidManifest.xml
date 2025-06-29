@@ -13,16 +13,16 @@
         android:theme="@style/Theme.JavaStripeApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activities.workorder.ListWorkOrdersActivity"
+            android:name=".ui.activities.workorder.list.ListWorkOrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.workorder.ViewWorkOrderActivity"
+            android:name=".ui.activities.workorder.view.ViewWorkOrderActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.user.provider.ProviderProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.workorder.WorkOrderActivity"
+            android:name=".ui.activities.workorder.create.WorkOrderActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.user.customer.CustomerProfileActivity"
