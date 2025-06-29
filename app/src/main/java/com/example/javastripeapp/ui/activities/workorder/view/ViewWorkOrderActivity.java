@@ -129,6 +129,7 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
                 }
                 case JOB_ACCEPTED: {
                     binding.btnCancel.setVisibility(View.VISIBLE);
+                    binding.btnDone.setVisibility(View.VISIBLE);
                     break;
                 }
                 default:
@@ -175,8 +176,7 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
             showToast("Order update failed. Please try again later");
         });
     }
-
-
+    
     private void hideAllButtons() {
         binding.btnAccept.setVisibility(View.GONE);
         binding.btnCancel.setVisibility(View.GONE);
