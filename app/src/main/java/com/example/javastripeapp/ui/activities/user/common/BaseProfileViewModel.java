@@ -1,4 +1,4 @@
-package com.example.javastripeapp.ui.activities.user;
+package com.example.javastripeapp.ui.activities.user.common;
 
 import androidx.lifecycle.ViewModel;
 

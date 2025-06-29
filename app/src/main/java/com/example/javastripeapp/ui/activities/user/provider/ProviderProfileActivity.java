@@ -16,6 +16,7 @@ import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.databinding.ActivityProviderProfileBinding;
 import com.example.javastripeapp.ui.activities.login.MainActivity;
+import com.example.javastripeapp.ui.activities.user.common.MyCurrentJobsActivity;
 import com.example.javastripeapp.ui.activities.workorder.list.ListWorkOrdersActivity;
 
 public class ProviderProfileActivity extends AppCompatActivity {
@@ -42,6 +43,10 @@ public class ProviderProfileActivity extends AppCompatActivity {
     private void setUpClickListeners() {
         binding.btnProviderAction.setOnClickListener(v -> {
             Intent intent = new Intent(this, ListWorkOrdersActivity.class);
+            startActivity(intent);
+        });
+        binding.btnProviderJobs.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MyCurrentJobsActivity.class);
             startActivity(intent);
         });
         binding.btnLogout.setOnClickListener(v -> signOutUser());

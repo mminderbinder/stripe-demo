@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,6 +31,7 @@
                 android:layout_marginBottom="24dp"
                 android:layout_gravity="center" />
 
+            <!-- Order ID -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,6 +55,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <!-- Status -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,11 +103,13 @@
                     android:textColor="?attr/colorPrimary" />
             </LinearLayout>
 
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 android:layout_marginBottom="24dp" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,6 +133,7 @@
                     android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
             </LinearLayout>
 
+            <!-- Provider ID -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -226,31 +231,46 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="12dp">
+
+                    <Button
+                        android:id="@+id/btn_cancel"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:text="CANCEL"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btn_accept"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="ACCEPT JOB"
+                        android:visibility="gone" />
+                </LinearLayout>
+
 
                 <Button
-                    android:id="@+id/btn_cancel"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btn_done"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:text="CANCEL" />
-
-                <Button
-                    android:id="@+id/btn_accept"
-                    style="@style/Widget.Material3.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ACCEPT JOB" />
+                    android:text="COMPLETE JOB"
+                    android:visibility="gone" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_done"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="COMPLETE JOB" />
         </LinearLayout>
     </ScrollView>
 

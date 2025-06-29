@@ -16,6 +16,7 @@ import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.databinding.ActivityCustomerProfileBinding;
 import com.example.javastripeapp.ui.activities.login.MainActivity;
+import com.example.javastripeapp.ui.activities.user.common.MyCurrentJobsActivity;
 import com.example.javastripeapp.ui.activities.workorder.create.WorkOrderActivity;
 
 public class CustomerProfileActivity extends AppCompatActivity {
@@ -42,6 +43,10 @@ public class CustomerProfileActivity extends AppCompatActivity {
     private void setUpClickListeners() {
         binding.btnCustomerAction.setOnClickListener(v -> startWorkOrderActivity());
         binding.btnLogout.setOnClickListener(v -> signOutUser());
+        binding.btnCurrentOrders.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MyCurrentJobsActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void retrieveUser() {

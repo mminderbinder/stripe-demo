@@ -3,7 +3,7 @@ package com.example.javastripeapp.ui.activities.user.provider;
 import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.data.repos.UserRepo;
-import com.example.javastripeapp.ui.activities.user.BaseProfileViewModel;
+import com.example.javastripeapp.ui.activities.user.common.BaseProfileViewModel;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 

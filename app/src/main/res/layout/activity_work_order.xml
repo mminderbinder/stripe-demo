@@ -5,143 +5,174 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="24dp"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activities.workorder.create.WorkOrderActivity">
 
-    <TextView
-        android:id="@+id/tv_heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Work Order"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="24dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ti_addresses"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="320dp"
-        android:layout_height="64dp"
-        android:hint="Select Address"
-        app:endIconMode="dropdown_menu"
-        app:layout_constraintBottom_toTopOf="@+id/tv_order_items"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_heading">
-
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/ac_addresses"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            android:padding="12dp"
-            android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_order_items"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Order Items"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-        app:layout_constraintBottom_toTopOf="@+id/layout_items"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ti_addresses" />
+            <TextView
+                android:id="@+id/tv_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:text="Create Work Order"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                android:layout_gravity="center" />
 
-    <LinearLayout
-        android:id="@+id/layout_items"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/tv_total_heading"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_order_items">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job Location"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_marginBottom="8dp" />
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/sw_driveway"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Driveway" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_addresses"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:hint="Select Address"
+                app:endIconMode="dropdown_menu">
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/sw_walkway"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Walkway" />
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/ac_addresses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/sw_sidewalk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Sidewalk" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_order_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Services"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_marginBottom="16dp" />
 
-    <TextView
-        android:id="@+id/tv_total_heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subtotal"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-        app:layout_constraintBottom_toTopOf="@+id/tv_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_items" />
+            <LinearLayout
+                android:id="@+id/layout_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="32dp">
 
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_total_heading"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tv_title_total"
-        android:text="$4.33 service fee (plus applicable taxes at checkout)"
-        android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/sw_driveway"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:padding="16dp"
+                    android:text="Driveway Cleaning"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
-    <TextView
-        android:id="@+id/tv_title_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$ 20.00"
-        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-        app:layout_constraintBottom_toTopOf="@+id/btn_order"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_info" />
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/sw_walkway"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:padding="16dp"
+                    android:text="Walkway Cleaning"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
-    <Button
-        android:id="@+id/btn_order"
-        style="@style/Widget.App.Button"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Order"
-        app:layout_constraintBottom_toTopOf="@+id/btn_cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_total" />
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/sw_sidewalk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="Sidewalk Cleaning"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_cancel"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_order" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginBottom="24dp" />
+
+            <TextView
+                android:id="@+id/tv_total_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order Summary"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Includes $4.33 service fee"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?android:attr/textColorSecondary" />
+
+            <TextView
+                android:id="@+id/tv_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="*Applicable taxes will be added at checkout"
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textStyle="italic" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="32dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total:"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_title_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$20.00"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_order"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:text="PLACE ORDER"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="CANCEL" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

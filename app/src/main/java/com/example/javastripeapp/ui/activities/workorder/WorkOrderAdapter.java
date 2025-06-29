@@ -12,11 +12,9 @@ import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
 import com.example.javastripeapp.databinding.ItemWorkOrderBinding;
 import com.example.javastripeapp.ui.activities.workorder.view.ViewWorkOrderActivity;
+import com.example.javastripeapp.utils.DateUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.ViewHolder> {
     private static final String TAG = "WorkOrderAdapter";
@@ -48,7 +46,7 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.View
 
         public void bind(WorkOrder workOrder) {
             Long timestamp = (Long) workOrder.getCreatedAt();
-            String readableDate = formatDateCreated(timestamp);
+            String readableDate = DateUtils.formatCurrentDateTime(timestamp);
 
             Address address = workOrder.getJobAddress();
             String addressString = address.getFormattedAddress();
@@ -91,9 +89,5 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.View
         return workOrderList.size();
     }
 
-    private String formatDateCreated(Long timestamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
-        return dateFormat.format(new Date(timestamp));
-    }
 }
 
