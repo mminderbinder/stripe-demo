@@ -1,5 +1,7 @@
 package com.example.javastripeapp.ui.activities.workorder.list;
 
+import android.util.Log;
+
 import androidx.lifecycle.ViewModel;
 
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
@@ -20,8 +22,8 @@ public class ListWorkOrdersViewModel extends ViewModel {
 
             return workOrders.stream()
                     .filter(wo -> wo.getWorkOrderStatus().equals("JOB_REQUESTED"))
+                    .peek(wo -> Log.d(TAG, wo.getWorkOrderId()))
                     .collect(Collectors.toList());
         });
     }
-
 }
