@@ -7,7 +7,7 @@ public enum WorkOrderStatus {
         return switch (status) {
             case "JOB_REQUESTED" -> JOB_REQUESTED;
             case "JOB_ACCEPTED" -> JOB_ACCEPTED;
-            case "JOB_CANCELED" -> JOB_CANCELED;
+            case "JOB_CANCELED_CUSTOMER" -> JOB_CANCELED;
             case "JOB_FULFILLED" -> JOB_FULFILLED;
             default -> null;
         };

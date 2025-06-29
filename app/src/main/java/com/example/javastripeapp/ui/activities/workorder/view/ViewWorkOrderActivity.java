@@ -18,8 +18,11 @@ import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.user.AccountType;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
+import com.example.javastripeapp.data.models.workorder.WorkOrderAction;
 import com.example.javastripeapp.data.models.workorder.WorkOrderStatus;
 import com.example.javastripeapp.databinding.ActivityViewWorkOrderBinding;
+import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
+import com.example.javastripeapp.ui.activities.user.provider.ProviderProfileActivity;
 import com.example.javastripeapp.utils.DateUtils;
 
 public class ViewWorkOrderActivity extends AppCompatActivity {
@@ -48,9 +51,16 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
                 String workOrderId = intent.getStringExtra("WO_ID");
                 if (workOrderId != null) {
                     retrieveWorkOrder(workOrderId);
+                    setUpClickListeners();
                 }
             }
         }
+    }
+
+    private void setUpClickListeners() {
+        binding.btnAccept.setOnClickListener(v -> acceptOrder());
+        binding.btnCancel.setOnClickListener(v -> cancelOrder());
+        binding.btnDone.setOnClickListener(v -> completeOrder());
     }
 
     private void retrieveWorkOrder(String workOrderId) {
@@ -99,7 +109,6 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
             showToast("Failed to retrieve user info");
             return;
         }
-
         if (accountType.equals(AccountType.CUSTOMER)) {
             binding.btnAccept.setVisibility(View.GONE);
             binding.btnDone.setVisibility(View.GONE);
@@ -112,7 +121,6 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
                 default:
                     hideAllButtons();
             }
-
         } else if (accountType.equals(AccountType.PROVIDER)) {
             switch (status) {
                 case JOB_REQUESTED: {
@@ -129,12 +137,51 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
         }
     }
 
+    private void acceptOrder() {
+        Intent intent = new Intent(this, ProviderProfileActivity.class);
+        updateOrderAndRedirect(WorkOrderAction.ACCEPT_ORDER, intent);
+    }
+
+    private void cancelOrder() {
+        User currentUser = viewModel.getCurrentUser();
+        AccountType accountType = AccountType.fromString(currentUser.getAccountType());
+        if (accountType == null) return;
+
+        Intent intent;
+        if (accountType.equals(AccountType.CUSTOMER)) {
+            intent = new Intent(this, CustomerProfileActivity.class);
+            updateOrderAndRedirect(WorkOrderAction.CANCEL_ORDER_CUSTOMER, intent);
+
+        } else if (accountType.equals(AccountType.PROVIDER)) {
+            intent = new Intent(this, ProviderProfileActivity.class);
+            updateOrderAndRedirect(WorkOrderAction.CANCEL_ORDER_PROVIDER, intent);
+        } else {
+            showToast("Failed to cancel work order. Please try later");
+        }
+    }
+
+    private void completeOrder() {
+        Intent intent = new Intent(this, ProviderProfileActivity.class);
+        updateOrderAndRedirect(WorkOrderAction.FULFILL_ORDER, intent);
+    }
+
+    private void updateOrderAndRedirect(WorkOrderAction action, Intent intent) {
+        viewModel.updateOrder(action).addOnSuccessListener(unused -> {
+            showToast("Order updated successfully");
+            startActivity(intent);
+            finish();
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Failed to update work order", e);
+            showToast("Order update failed. Please try again later");
+        });
+    }
+
+
     private void hideAllButtons() {
         binding.btnAccept.setVisibility(View.GONE);
         binding.btnCancel.setVisibility(View.GONE);
         binding.btnDone.setVisibility(View.GONE);
     }
-
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();

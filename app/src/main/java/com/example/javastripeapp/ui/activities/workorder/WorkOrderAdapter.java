@@ -54,9 +54,12 @@ public class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderAdapter.View
             double total = workOrder.getTotalAmount();
             String totalString = String.valueOf(total);
 
+            String status = workOrder.getWorkOrderStatus();
+
             binding.tvCreatedAt.setText(readableDate);
             binding.tvLocation.setText(addressString);
             binding.tvTotal.setText("$" + totalString);
+            binding.tvStatus.setText(status);
 
             int currentPosition = getBindingAdapterPosition();
 

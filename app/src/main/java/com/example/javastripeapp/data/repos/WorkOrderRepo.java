@@ -7,6 +7,7 @@ import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;
+import java.util.Map;
 
 public class WorkOrderRepo {
     private final GenericReference<WorkOrder> workOrderRef;
@@ -36,6 +37,10 @@ public class WorkOrderRepo {
 
     public Task<List<WorkOrder>> fetchAllWorkOrders() {
         return workOrderRef.getAllObjects();
+    }
+
+    public Task<Void> updateWorkOrder(String workOrderId, Map<String, Object> updates) {
+        return workOrderRef.updateObject(workOrderId, updates);
     }
 
     private String retrieveAccountTypeField(AccountType accountType) {

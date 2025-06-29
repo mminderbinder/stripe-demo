@@ -4,10 +4,15 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
+import com.example.javastripeapp.data.models.workorder.WorkOrderAction;
 import com.example.javastripeapp.data.repos.UserRepo;
 import com.example.javastripeapp.data.repos.WorkOrderRepo;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ViewWorkOrderViewModel extends ViewModel {
     private static final String TAG = "ViewWorkOrderViewModel";
@@ -28,6 +33,40 @@ public class ViewWorkOrderViewModel extends ViewModel {
             currentUser = TaskUtils.getTaskResultOrThrow(task, "Failed to retrieve current user");
             return currentUser;
         });
+    }
+
+    public Task<Void> updateOrder(WorkOrderAction action) {
+        WorkOrder currentOrder = getWorkOrder();
+        String workOrderId = currentOrder.getWorkOrderId();
+        Map<String, Object> updateMap = processUpdateMap(action);
+
+        return workOrderRepo.updateWorkOrder(workOrderId, updateMap);
+    }
+
+    private Map<String, Object> processUpdateMap(WorkOrderAction action) {
+        Map<String, Object> updates = new HashMap<>();
+        User user = getCurrentUser();
+        switch (action) {
+            case ACCEPT_ORDER: {
+                updates.put("workOrderStatus", "JOB_ACCEPTED");
+                updates.put("providerId", user.getUserId());
+                break;
+            }
+            case CANCEL_ORDER_CUSTOMER: {
+                updates.put("workOrderStatus", "JOB_CANCELED");
+                break;
+            }
+            case CANCEL_ORDER_PROVIDER: {
+                updates.put("workOrderStatus", "JOB_REQUESTED");
+                break;
+            }
+            case FULFILL_ORDER: {
+                updates.put("workOrderStatus", "JOB_FULFILLED");
+                break;
+            }
+        }
+        updates.put("updatedAt", ServerValue.TIMESTAMP);
+        return updates;
     }
 
     public User getCurrentUser() {
