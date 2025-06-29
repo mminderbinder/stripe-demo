@@ -37,8 +37,9 @@
                     android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date"
-                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium" />
+                    android:text="Status"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
             </LinearLayout>
 
             <LinearLayout

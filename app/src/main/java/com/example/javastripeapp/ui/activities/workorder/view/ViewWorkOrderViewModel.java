@@ -58,6 +58,7 @@ public class ViewWorkOrderViewModel extends ViewModel {
             }
             case CANCEL_ORDER_PROVIDER: {
                 updates.put("workOrderStatus", "JOB_REQUESTED");
+                updates.put("providerId", null);
                 break;
             }
             case FULFILL_ORDER: {

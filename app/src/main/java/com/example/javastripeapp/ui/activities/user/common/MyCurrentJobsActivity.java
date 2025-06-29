@@ -52,7 +52,13 @@ public class MyCurrentJobsActivity extends AppCompatActivity {
 
     private void retrieveUserWorkOrders(User user) {
         viewModel.retrieveWorkOrdersByUser(user)
-                .addOnSuccessListener(this::setUpRecyclerView)
+                .addOnSuccessListener(workOrderList -> {
+                    if (workOrderList.isEmpty()) {
+                        binding.tvGetStarted.setVisibility(RecyclerView.VISIBLE);
+                    } else {
+                        setUpRecyclerView(workOrderList);
+                    }
+                })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Failed to load user's work orders", e);
                     showToast("Failed to retrieve work orders. Please try later");
