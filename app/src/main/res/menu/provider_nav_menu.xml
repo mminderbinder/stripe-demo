@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_home_provider"
+        android:title="Home"
+        android:icon="@drawable/outline_account_circle_24"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_dashboard"
+        android:title="Dashboard"
+        android:icon="@drawable/outline_dashboard_2_24"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_payouts"
+        android:title="Payouts"
+        android:icon="@drawable/outline_money_bag_24"
+        app:showAsAction="ifRoom" />
+
+</menu>

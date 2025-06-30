@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_home_customer"
+        android:title="Home"
+        android:icon="@drawable/outline_account_circle_24"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_payment_methods"
+        android:title="Payment Methods"
+        android:icon="@drawable/outline_credit_card_24"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_order_history"
+        android:title="Order History"
+        android:icon="@drawable/outline_history_24"
+        app:showAsAction="ifRoom" />
+
+</menu>

@@ -6,20 +6,21 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.javastripeapp.R;
+import com.example.javastripeapp.data.models.user.AccountType;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.databinding.ActivityProviderProfileBinding;
 import com.example.javastripeapp.ui.activities.login.MainActivity;
+import com.example.javastripeapp.ui.activities.user.common.BaseActivity;
 import com.example.javastripeapp.ui.activities.user.common.MyCurrentJobsActivity;
 import com.example.javastripeapp.ui.activities.workorder.list.ListWorkOrdersActivity;
 
-public class ProviderProfileActivity extends AppCompatActivity {
+public class ProviderProfileActivity extends BaseActivity {
 
     private static final String TAG = "ProviderProfileActivity";
     private ActivityProviderProfileBinding binding;
@@ -37,8 +38,20 @@ public class ProviderProfileActivity extends AppCompatActivity {
             return insets;
         });
         viewModel = new ViewModelProvider(this).get(ProviderViewModel.class);
+        setupToolbar();
         retrieveUser();
     }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_provider_profile;
+    }
+
+    @Override
+    protected AccountType getAccountType() {
+        return AccountType.PROVIDER;
+    }
+
 
     private void setUpClickListeners() {
         binding.btnProviderAction.setOnClickListener(v -> {

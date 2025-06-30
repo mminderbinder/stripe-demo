@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -14,13 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javastripeapp.R;
+import com.example.javastripeapp.data.models.user.AccountType;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
 import com.example.javastripeapp.databinding.ActivityListWorkOrdersBinding;
+import com.example.javastripeapp.ui.activities.user.common.BaseActivity;
 import com.example.javastripeapp.ui.activities.workorder.WorkOrderAdapter;
 
 import java.util.List;
 
-public class ListWorkOrdersActivity extends AppCompatActivity {
+public class ListWorkOrdersActivity extends BaseActivity {
     private static final String TAG = "ListWorkOrdersActivity";
     private ActivityListWorkOrdersBinding binding;
     private ListWorkOrdersViewModel viewModel;
@@ -37,8 +38,20 @@ public class ListWorkOrdersActivity extends AppCompatActivity {
             return insets;
         });
         viewModel = new ViewModelProvider(this).get(ListWorkOrdersViewModel.class);
+        setupToolbar();
         retrieveRequestedOrders();
     }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_list_work_orders;
+    }
+
+    @Override
+    protected AccountType getAccountType() {
+        return AccountType.PROVIDER;
+    }
+
 
     private void retrieveRequestedOrders() {
         viewModel.retrieveRequestedWorkOrders()

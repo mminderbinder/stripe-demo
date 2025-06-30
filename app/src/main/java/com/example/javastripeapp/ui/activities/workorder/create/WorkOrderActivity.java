@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -15,18 +14,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.models.address.Address;
+import com.example.javastripeapp.data.models.user.AccountType;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
 import com.example.javastripeapp.data.models.workorder.WorkOrderStatus;
 import com.example.javastripeapp.data.models.workorder.line_item.LineItem;
 import com.example.javastripeapp.databinding.ActivityWorkOrderBinding;
+import com.example.javastripeapp.ui.activities.user.common.BaseActivity;
 import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class WorkOrderActivity extends AppCompatActivity {
+public class WorkOrderActivity extends BaseActivity {
 
     private static final String TAG = "WorkOrderActivity";
     private ActivityWorkOrderBinding binding;
@@ -45,9 +46,21 @@ public class WorkOrderActivity extends AppCompatActivity {
             return insets;
         });
         viewModel = new ViewModelProvider(this).get(WorkOrderViewModel.class);
+        setupToolbar();
         retrieveUser();
         observeViewModel();
     }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_work_order;
+    }
+
+    @Override
+    protected AccountType getAccountType() {
+        return AccountType.CUSTOMER;
+    }
+
 
     private void observeViewModel() {
         viewModel.workOrderPrice.observe(this, price -> {

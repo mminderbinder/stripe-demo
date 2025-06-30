@@ -13,6 +13,21 @@
         android:theme="@style/Theme.JavaStripeApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.user.common.BaseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.user.provider.PayoutsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.user.provider.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.user.customer.OrderHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.user.customer.PaymentMethodsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.user.common.MyCurrentJobsActivity"
             android:exported="false" />
         <activity

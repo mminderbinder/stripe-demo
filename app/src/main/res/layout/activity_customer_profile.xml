@@ -6,97 +6,109 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:padding="24dp"
     tools:context=".ui.activities.user.customer.CustomerProfileActivity">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Customer Profile"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/img_profile"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/happy_svgrepo_com"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title"
-        app:shapeAppearanceOverlay="@style/circleImageView" />
-
-    <TextView
-        android:id="@+id/tv_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome back,"
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-        android:textColor="?android:attr/textColorSecondary"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_profile" />
-
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/cursive"
-        android:text="Username"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_welcome" />
-
-    <LinearLayout
-        android:id="@+id/button_group"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_username">
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
-            android:id="@+id/btn_customer_action"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="280dp"
-            android:layout_height="56dp"
-            android:layout_marginBottom="16dp"
-            android:text="CREATE NEW JOB"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btn_current_orders"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="280dp"
-            android:layout_height="56dp"
-            android:text="MY CURRENT ORDERS"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_logout"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Sign Out"
-        android:textColor="?attr/colorError"
-        app:icon="@drawable/outline_account_circle_24"
-        app:iconTint="?attr/colorError"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="24dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer Profile"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                android:layout_marginTop="16dp" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_profile"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/happy_svgrepo_com"
+                android:layout_marginTop="32dp"
+                app:shapeAppearanceOverlay="@style/circleImageView" />
+
+            <TextView
+                android:id="@+id/tv_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome back,"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_marginTop="24dp" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cursive"
+                android:text="Username"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                android:layout_marginTop="8dp" />
+
+            <LinearLayout
+                android:id="@+id/button_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btn_customer_action"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="280dp"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="CREATE NEW JOB"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_current_orders"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="280dp"
+                    android:layout_height="56dp"
+                    android:text="MY CURRENT ORDERS"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_logout"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"
+                android:text="Sign Out"
+                android:textColor="?attr/colorError"
+                app:icon="@drawable/outline_account_circle_24"
+                app:iconTint="?attr/colorError" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
