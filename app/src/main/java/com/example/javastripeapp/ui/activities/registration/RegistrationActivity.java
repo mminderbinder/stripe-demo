@@ -18,6 +18,7 @@ import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.databinding.ActivityRegistrationBinding;
 import com.example.javastripeapp.ui.activities.login.MainActivity;
 import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
+import com.example.javastripeapp.ui.activities.user.provider.ProviderProfileActivity;
 import com.example.javastripeapp.utils.TaskUtils;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -42,7 +43,6 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void setUpClickListeners() {
-
         binding.btnRegister.setOnClickListener(v -> {
             validateFields();
         });
@@ -83,25 +83,39 @@ public class RegistrationActivity extends AppCompatActivity {
         AccountType accountType = isCustomer ? AccountType.CUSTOMER : AccountType.PROVIDER;
 
         User newUser = new User(username, email, accountType);
-        createUser(newUser, password);
+        createUser(newUser, password, username);
     }
 
-    private void createUser(User user, String password) {
-        viewModel.createUserInAuth(user.getEmail(), password).continueWithTask(authTask -> {
+    private void createUser(User user, String password, String username) {
+        viewModel.createUserInAuth(user.getEmail(), password, username).continueWithTask(authTask -> {
             if (!authTask.isSuccessful()) {
                 return TaskUtils.forTaskException(authTask, "Failed to create user in Firebase Auth");
             }
             user.setUserId(authTask.getResult());
 
             return viewModel.createUserInDatabase(user).addOnSuccessListener(unused -> {
-                Intent intent = new Intent(this, CustomerProfileActivity.class);
-                startActivity(intent);
+                AccountType accountType = AccountType.fromString(user.getAccountType());
+                if (accountType != null) {
+                    redirectToProfile(accountType);
+                }
 
             }).addOnFailureListener(e -> {
                 Log.e(TAG, "Failed to create new user", e);
                 Toast.makeText(this, "Failed to create user. Please try later or contact support", Toast.LENGTH_LONG).show();
             });
         });
+    }
+
+    private void redirectToProfile(AccountType accountType) {
+        Intent intent = null;
+        if (accountType.equals(AccountType.CUSTOMER)) {
+            intent = new Intent(this, CustomerProfileActivity.class);
+        } else if (accountType.equals(AccountType.PROVIDER)) {
+            intent = new Intent(this, ProviderProfileActivity.class);
+        } else {
+            showToast("Failed to get account type. Please try later");
+        }
+        startActivity(intent);
     }
 
     private void showToast(String message) {

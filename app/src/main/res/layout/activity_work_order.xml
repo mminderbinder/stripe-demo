@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:padding="16dp"
-                    android:text="Driveway Cleaning"
+                    android:text="Driveway Clearing"
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:padding="16dp"
-                    android:text="Walkway Cleaning"
+                    android:text="Walkway Clearing"
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
-                    android:text="Sidewalk Cleaning"
+                    android:text="Sidewalk Clearing"
                     android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
             </LinearLayout>
 

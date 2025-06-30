@@ -16,12 +16,11 @@ public class RegistrationViewModel extends ViewModel {
     private final UserRepo userRepo = new UserRepo();
     private final AddressRepo addressRepo = new AddressRepo();
 
-    public Task<String> createUserInAuth(String email, String password) {
-        return authRepo.createUserWithEmailPassword(email, password);
+    public Task<String> createUserInAuth(String email, String password, String username) {
+        return authRepo.createUserWithEmailPassword(email, password, username);
     }
 
     public Task<Void> createUserInDatabase(User user) {
-
         return userRepo.createUserInDatabase(user).continueWithTask(task -> {
             if (!task.isSuccessful()) {
                 return TaskUtils.forTaskException(task, "Failed to create user in Database");

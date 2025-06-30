@@ -11,6 +11,7 @@ constraintlayout = "2.2.1"
 firebaseAuth = "23.2.1"
 firebaseDatabase = "21.0.0"
 stripeAndroid = "21.19.0"
+firebaseFunctions = "21.2.1"
 
 [libraries]
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -24,6 +25,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 stripe-android = { module = "com.stripe:stripe-android", version.ref = "stripeAndroid" }
+firebase-functions = { group = "com.google.firebase", name = "firebase-functions", version.ref = "firebaseFunctions" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
