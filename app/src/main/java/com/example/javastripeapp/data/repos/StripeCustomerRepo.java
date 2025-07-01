@@ -38,28 +38,27 @@ public class StripeCustomerRepo {
                 });
     }
 
-    public Task<CustomerSheetSetUpResult> createCustomerSheetIntent(String stripeCustomerId) {
+    public Task<CustomerSheetSetupResult> createCustomerSheetSetupIntent(String customerId) {
         Map<String, Object> data = new HashMap<>();
-        data.put("stripeCustomerId", stripeCustomerId);
+        data.put("customerId", customerId);
 
-        return functions.getHttpsCallable("createCustomerSheetSetUpIntent")
+        return functions.getHttpsCallable("createCustomerSheetSetupIntent")
                 .call(data)
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) {
-                        return TaskUtils.forTaskException(task, "Failed to retrieve map from callable");
-                    }
-                    HttpsCallableResult result = task.getResult();
-                    if (result == null || result.getData() == null) {
-                        return TaskUtils.forIllegalStateException("Callable result or result data is null");
+                        return TaskUtils.forTaskException(task, "Unable to setup payment methods");
                     }
                     @SuppressWarnings("unchecked")
-                    Map<String, Object> response = (Map<String, Object>) result.getData();
+                    Map<String, Object> response = (Map<String, Object>) task.getResult().getData();
 
+                    if (response == null) {
+                        return TaskUtils.forIllegalStateException("Response is null");
+                    }
                     String setupIntentClientSecret = (String) response.get("setupIntentClientSecret");
                     String ephemeralKeySecret = (String) response.get("ephemeralKeySecret");
 
                     Log.d(TAG, "CustomerSheet setup intent created successfully");
-                    return Tasks.forResult(new CustomerSheetSetUpResult(setupIntentClientSecret, ephemeralKeySecret, stripeCustomerId));
+                    return Tasks.forResult(new CustomerSheetSetupResult(setupIntentClientSecret, ephemeralKeySecret, customerId));
                 });
     }
 
@@ -86,12 +85,12 @@ public class StripeCustomerRepo {
     }
 
 
-    public static class CustomerSheetSetUpResult {
+    public static class CustomerSheetSetupResult {
         private final String setUpIntentClientSecret;
         private final String ephemeralKeySecret;
         private final String customerId;
 
-        public CustomerSheetSetUpResult(String setUpIntentClientSecret, String ephemeralKeySecret, String customerId) {
+        public CustomerSheetSetupResult(String setUpIntentClientSecret, String ephemeralKeySecret, String customerId) {
             this.setUpIntentClientSecret = setUpIntentClientSecret;
             this.ephemeralKeySecret = ephemeralKeySecret;
             this.customerId = customerId;
