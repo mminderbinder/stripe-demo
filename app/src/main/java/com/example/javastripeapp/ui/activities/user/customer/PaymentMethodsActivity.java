@@ -6,6 +6,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.models.user.AccountType;
@@ -14,6 +15,7 @@ import com.example.javastripeapp.ui.activities.user.common.BaseActivity;
 
 public class PaymentMethodsActivity extends BaseActivity {
     private ActivityPaymentMethodsBinding binding;
+    private PaymentMethodsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class PaymentMethodsActivity extends BaseActivity {
             return insets;
         });
         setupToolbar();
+        viewModel = new ViewModelProvider(this).get(PaymentMethodsViewModel.class);
     }
 
     @Override
