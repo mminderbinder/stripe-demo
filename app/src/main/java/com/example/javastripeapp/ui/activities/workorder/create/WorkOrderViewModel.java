@@ -29,11 +29,8 @@ public class WorkOrderViewModel extends ViewModel {
     public LiveData<Double> workOrderPrice = _workOrderPrice;
 
     private final MutableLiveData<Boolean> _drivewaySelected = new MutableLiveData<>(false);
-    public LiveData<Boolean> drivewaySelected = _drivewaySelected;
     private final MutableLiveData<Boolean> _walkwaySelected = new MutableLiveData<>(false);
-    public LiveData<Boolean> walkwaySelected = _walkwaySelected;
     private final MutableLiveData<Boolean> _sidewalkSelected = new MutableLiveData<>(false);
-    public LiveData<Boolean> sidewalkSelected = _sidewalkSelected;
     private User currentUser;
 
     public void toggleDriveway(boolean isChecked) {

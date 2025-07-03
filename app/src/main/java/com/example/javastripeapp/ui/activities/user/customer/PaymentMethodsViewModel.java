@@ -16,7 +16,7 @@ public class PaymentMethodsViewModel extends ViewModel {
     private final UserRepo userRepo = new UserRepo();
     private final StripeCustomerRepo stripeCustomerRepo = new StripeCustomerRepo();
 
-    private User currentUser; // Store user in ViewModel
+    private User currentUser;
 
     public Task<User> retrieveUser() {
         return userRepo.fetchUserInDatabase()

@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".JavaStripeApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -38,7 +41,18 @@
             android:exported="false" />
         <activity
             android:name=".ui.activities.user.provider.ProviderProfileActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="com.example.javastripeapp"
+                    android:host="onboarding" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.activities.workorder.create.WorkOrderActivity"
             android:exported="false" />

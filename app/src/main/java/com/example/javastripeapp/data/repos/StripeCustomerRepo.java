@@ -40,9 +40,9 @@ public class StripeCustomerRepo {
 
     public Task<CustomerSheetSetupResult> createCustomerSheetSetupIntent(String customerId) {
         Map<String, Object> data = new HashMap<>();
-        data.put("customerId", customerId);
+        data.put("stripeCustomerId", customerId);
 
-        return functions.getHttpsCallable("createCustomerSheetSetupIntent")
+        return functions.getHttpsCallable("createPaymentSheetSetupIntent")
                 .call(data)
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) {

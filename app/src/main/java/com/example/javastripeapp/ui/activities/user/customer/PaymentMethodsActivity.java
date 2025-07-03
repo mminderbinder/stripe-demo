@@ -40,7 +40,7 @@ public class PaymentMethodsActivity extends BaseActivity {
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
         loadUserData();
-        
+
         binding.btnManagePaymentMethods.setOnClickListener(v -> presentPaymentSheetFlow());
     }
 
@@ -112,8 +112,7 @@ public class PaymentMethodsActivity extends BaseActivity {
         viewModel.hasPaymentMethods(currentUser.getStripeCustomerId()).addOnSuccessListener(hasPaymentMethods -> {
             if (hadPaymentMethods != hasPaymentMethods) {
                 updateUserPaymentMethodStatus(currentUser, hasPaymentMethods);
-
-                // Show appropriate feedback
+                
                 if (hasPaymentMethods) {
                     showToast("Payment method saved");
                 } else {

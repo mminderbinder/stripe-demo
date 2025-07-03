@@ -22,10 +22,28 @@ public class TaskUtils {
                 : new Exception(defaultMessage);
     }
 
+    /**
+     * @param <T> Generic method to return a failed Tasks with extracted error message
+     */
+
+    public static <T> Task<T> forTaskExceptionMessage(Task<?> task, String defaultMessage) {
+        if (task.getException() != null && task.getException().getMessage() != null) {
+            return Tasks.forException(new Exception(task.getException().getMessage()));
+        }
+        return Tasks.forException(new Exception(defaultMessage));
+    }
+
     public static <T> T getTaskResultOrThrow(Task<T> task, String errorMessage) {
         if (!task.isSuccessful()) {
             throw new RuntimeException(getTaskException(task, errorMessage));
         }
         return task.getResult();
+    }
+
+    public static String extractErrorMessage(Task<?> task, String defaultMessage) {
+        if (task.getException() != null && task.getException().getMessage() != null) {
+            return task.getException().getMessage();
+        }
+        return defaultMessage;
     }
 }
