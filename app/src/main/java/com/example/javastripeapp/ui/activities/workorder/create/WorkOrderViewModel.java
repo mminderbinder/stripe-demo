@@ -10,6 +10,7 @@ import com.example.javastripeapp.data.models.workorder.WorkOrder;
 import com.example.javastripeapp.data.models.workorder.line_item.LineItem;
 import com.example.javastripeapp.data.models.workorder.line_item.LineItemType;
 import com.example.javastripeapp.data.repos.AddressRepo;
+import com.example.javastripeapp.data.repos.StripeCommonRepo;
 import com.example.javastripeapp.data.repos.StripeCustomerRepo;
 import com.example.javastripeapp.data.repos.UserRepo;
 import com.example.javastripeapp.data.repos.WorkOrderRepo;
@@ -26,13 +27,14 @@ public class WorkOrderViewModel extends ViewModel {
     private final AddressRepo addressRepo = new AddressRepo();
     private final WorkOrderRepo workOrderRepo = new WorkOrderRepo();
     private final StripeCustomerRepo customerRepo = new StripeCustomerRepo();
-
+    private final StripeCommonRepo commonRepo = new StripeCommonRepo();
     private final MutableLiveData<Double> _workOrderPrice = new MutableLiveData<>(4.33);
     public LiveData<Double> workOrderPrice = _workOrderPrice;
 
     private final MutableLiveData<Boolean> _drivewaySelected = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> _walkwaySelected = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> _sidewalkSelected = new MutableLiveData<>(false);
+    private WorkOrder currentWorkOrder;
     private User currentUser;
 
     public void toggleDriveway(boolean isChecked) {
@@ -80,6 +82,7 @@ public class WorkOrderViewModel extends ViewModel {
     }
 
     public Task<Void> createWorkOrder(WorkOrder workOrder) {
+        currentWorkOrder = workOrder;
         return workOrderRepo.createWorkOrder(workOrder);
     }
 
@@ -98,11 +101,27 @@ public class WorkOrderViewModel extends ViewModel {
         return addressRepo.fetchUserAddresses(userId);
     }
 
-    public Task<Void> deleteWorkOrder(String workOrderId) {
-        return workOrderRepo.deleteWorkOrder(workOrderId);
+    public Task<StripeCommonRepo.CancellationResult> cleanUpFailedWorkOrder() {
+        if (currentWorkOrder == null) {
+            return TaskUtils.forIllegalStateException("No work order to delete");
+        }
+        return commonRepo.cancelPaymentIntent(currentWorkOrder.getWorkOrderId())
+                .continueWithTask(task ->
+                        workOrderRepo.deleteWorkOrder(currentWorkOrder.getWorkOrderId())
+                                .continueWith(deleteTask -> {
+                                    if (task.isSuccessful()) {
+                                        return task.getResult();
+                                    } else {
+                                        return new StripeCommonRepo.CancellationResult(false, "Failed to cancel payment intent");
+                                    }
+                                }));
     }
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public WorkOrder getCurrentWorkOrder() {
+        return currentWorkOrder;
     }
 }

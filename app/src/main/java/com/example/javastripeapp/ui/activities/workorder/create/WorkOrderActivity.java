@@ -37,9 +37,6 @@ public class WorkOrderActivity extends BaseActivity {
     private Address selectedAddress;
     private PaymentSheet paymentSheet;
 
-    // Store the work order for cleanup if needed
-    private WorkOrder pendingWorkOrder;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,7 +162,6 @@ public class WorkOrderActivity extends BaseActivity {
 
             viewModel.createWorkOrder(newWorkOrder)
                     .addOnSuccessListener(unused -> {
-                        this.pendingWorkOrder = newWorkOrder;
                         presentPaymentSheetForOrder(newWorkOrder);
                     })
                     .addOnFailureListener(e -> {
@@ -230,11 +226,11 @@ public class WorkOrderActivity extends BaseActivity {
     }
 
     private void cleanupFailedOrder() {
-        if (pendingWorkOrder != null && pendingWorkOrder.getWorkOrderId() != null) {
-            viewModel.deleteWorkOrder(pendingWorkOrder.getWorkOrderId())
-                    .addOnSuccessListener(unused -> Log.d(TAG, "Work order cleaned up"))
-                    .addOnFailureListener(e -> Log.e(TAG, "Failed to cleanup work order", e));
-        }
+        viewModel.cleanUpFailedWorkOrder().addOnSuccessListener(unused -> {
+            Log.d(TAG, "Work order cleanup successful");
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Failed to cleanup work order", e);
+        });
     }
 
     private void showToast(String message) {
