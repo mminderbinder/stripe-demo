@@ -2,6 +2,7 @@ package com.example.javastripeapp.data.repos;
 
 import android.util.Log;
 
+import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
@@ -21,11 +22,16 @@ public class StripeProviderRepo {
         this.functions = FirebaseFunctions.getInstance();
     }
 
-    public Task<Void> createStripeConnectAccount(User user) {
+    public Task<Void> createStripeConnectAccount(User user, Address address) {
         Map<String, Object> data = new HashMap<>();
-        data.put("email", user.getEmail());
         data.put("accountType", user.getAccountType());
         data.put("displayName", user.getUsername());
+        data.put("email", user.getEmail());
+        data.put("line1", address.getLine1());
+        data.put("city", address.getCity());
+        data.put("state", address.getProvince());
+        data.put("postalCode", address.getPostalCode());
+        data.put("country", "CA");
 
         return functions.getHttpsCallable("createConnectAccount")
                 .call(data)

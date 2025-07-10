@@ -25,7 +25,6 @@ public class CustomerProfileActivity extends BaseActivity {
     private static final String TAG = "CustomerProfileActivity";
     private ActivityCustomerProfileBinding binding;
     private CustomerProfileViewModel viewModel;
-    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

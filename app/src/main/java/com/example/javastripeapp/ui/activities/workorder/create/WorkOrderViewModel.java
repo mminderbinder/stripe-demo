@@ -10,6 +10,7 @@ import com.example.javastripeapp.data.models.workorder.WorkOrder;
 import com.example.javastripeapp.data.models.workorder.line_item.LineItem;
 import com.example.javastripeapp.data.models.workorder.line_item.LineItemType;
 import com.example.javastripeapp.data.repos.AddressRepo;
+import com.example.javastripeapp.data.repos.StripeCustomerRepo;
 import com.example.javastripeapp.data.repos.UserRepo;
 import com.example.javastripeapp.data.repos.WorkOrderRepo;
 import com.example.javastripeapp.utils.TaskUtils;
@@ -24,6 +25,7 @@ public class WorkOrderViewModel extends ViewModel {
     private final UserRepo userRepo = new UserRepo();
     private final AddressRepo addressRepo = new AddressRepo();
     private final WorkOrderRepo workOrderRepo = new WorkOrderRepo();
+    private final StripeCustomerRepo customerRepo = new StripeCustomerRepo();
 
     private final MutableLiveData<Double> _workOrderPrice = new MutableLiveData<>(4.33);
     public LiveData<Double> workOrderPrice = _workOrderPrice;
@@ -44,7 +46,6 @@ public class WorkOrderViewModel extends ViewModel {
         if (Boolean.TRUE.equals(_walkwaySelected.getValue()) != isChecked) {
             _walkwaySelected.setValue(isChecked);
             updatePrice(isChecked, LineItemType.WALKWAY.getPrice());
-
         }
     }
 
@@ -67,12 +68,10 @@ public class WorkOrderViewModel extends ViewModel {
         lineItemMap.put(LineItemType.SERVICE_FEE.getItemCode(), LineItemType.SERVICE_FEE.createLineItem());
 
         if (Boolean.TRUE.equals(_drivewaySelected.getValue())) {
-            lineItemMap.put(LineItemType.DRIVEWAY.getItemCode(), LineItemType.DRIVEWAY.createLineItem()
-            );
+            lineItemMap.put(LineItemType.DRIVEWAY.getItemCode(), LineItemType.DRIVEWAY.createLineItem());
         }
         if (Boolean.TRUE.equals(_walkwaySelected.getValue())) {
-            lineItemMap.put(LineItemType.WALKWAY.getItemCode(), LineItemType.WALKWAY.createLineItem()
-            );
+            lineItemMap.put(LineItemType.WALKWAY.getItemCode(), LineItemType.WALKWAY.createLineItem());
         }
         if (Boolean.TRUE.equals(_sidewalkSelected.getValue())) {
             lineItemMap.put(LineItemType.SIDEWALK.getItemCode(), LineItemType.SIDEWALK.createLineItem());
@@ -91,8 +90,16 @@ public class WorkOrderViewModel extends ViewModel {
         });
     }
 
+    public Task<StripeCustomerRepo.PaymentIntentResult> createPaymentIntentForWorkOrder(WorkOrder workOrder, String stripeCustomerId) {
+        return customerRepo.createPaymentIntent(workOrder, stripeCustomerId);
+    }
+
     public Task<List<Address>> retrieveCustomerAddresses(String userId) {
         return addressRepo.fetchUserAddresses(userId);
+    }
+
+    public Task<Void> deleteWorkOrder(String workOrderId) {
+        return workOrderRepo.deleteWorkOrder(workOrderId);
     }
 
     public User getCurrentUser() {

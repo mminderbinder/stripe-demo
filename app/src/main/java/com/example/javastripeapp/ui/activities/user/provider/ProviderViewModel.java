@@ -68,7 +68,23 @@ public class ProviderViewModel extends BaseProfileViewModel {
         if (currentUser == null) {
             return TaskUtils.forIllegalStateException("Current user is null");
         }
-        return providerRepo.createStripeConnectAccount(currentUser);
+        return fetchUserAddresses(currentUser.getUserId()).continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                return TaskUtils.forTaskException(task, "Failed to retrieve user addresses");
+            }
+            List<Address> addressList = task.getResult();
+            Address address = null;
+
+            for (int i = 0; i < addressList.size(); i++) {
+                int index = (int) (Math.random() * addressList.size());
+                
+                address = addressList.get(index);
+            }
+            if (address == null) {
+                address = addressList.get(0);
+            }
+            return providerRepo.createStripeConnectAccount(currentUser, address);
+        });
     }
 
     public Task<String> startOnboarding() {

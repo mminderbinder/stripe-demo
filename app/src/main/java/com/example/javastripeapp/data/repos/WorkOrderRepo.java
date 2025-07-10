@@ -49,4 +49,8 @@ public class WorkOrderRepo {
             case CUSTOMER -> "customerId";
         };
     }
+
+    public Task<Void> deleteWorkOrder(String workOrderId) {
+        return workOrderRef.deleteObject(workOrderId);
+    }
 }

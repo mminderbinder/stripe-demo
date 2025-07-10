@@ -172,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="12dp"
-                android:text="PLACE ORDER"
+                android:text="CHECKOUT"
                 android:textSize="16sp" />
 
             <Button

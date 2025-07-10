@@ -16,6 +16,8 @@ public class WorkOrder {
     private String workOrderStatus;
     private Double totalAmount;
     private Address jobAddress;
+    private String cancellationReason;
+    private String paymentIntentId;
 
     public WorkOrder() {
 
@@ -103,5 +105,19 @@ public class WorkOrder {
         this.jobAddress = jobAddress;
     }
 
+    public String getCancellationReason() {
+        return cancellationReason;
+    }
 
+    public void setCancellationReason(String cancellationReason) {
+        this.cancellationReason = cancellationReason;
+    }
+
+    public String getPaymentIntentId() {
+        return paymentIntentId;
+    }
+
+    public void setPaymentIntentId(String paymentIntentId) {
+        this.paymentIntentId = paymentIntentId;
+    }
 }
