@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel;
 import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
+import com.example.javastripeapp.data.models.workorder.WorkOrderStatus;
 import com.example.javastripeapp.data.models.workorder.line_item.LineItem;
 import com.example.javastripeapp.data.models.workorder.line_item.LineItemType;
 import com.example.javastripeapp.data.repos.AddressRepo;
-import com.example.javastripeapp.data.repos.StripeCommonRepo;
 import com.example.javastripeapp.data.repos.StripeCustomerRepo;
 import com.example.javastripeapp.data.repos.UserRepo;
 import com.example.javastripeapp.data.repos.WorkOrderRepo;
@@ -25,17 +25,15 @@ public class WorkOrderViewModel extends ViewModel {
     private static final String TAG = "WorkOrderViewModel";
     private final UserRepo userRepo = new UserRepo();
     private final AddressRepo addressRepo = new AddressRepo();
-    private final WorkOrderRepo workOrderRepo = new WorkOrderRepo();
     private final StripeCustomerRepo customerRepo = new StripeCustomerRepo();
-    private final StripeCommonRepo commonRepo = new StripeCommonRepo();
+    private final WorkOrderRepo workOrderRepo = new WorkOrderRepo();
     private final MutableLiveData<Double> _workOrderPrice = new MutableLiveData<>(4.33);
     public LiveData<Double> workOrderPrice = _workOrderPrice;
-
     private final MutableLiveData<Boolean> _drivewaySelected = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> _walkwaySelected = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> _sidewalkSelected = new MutableLiveData<>(false);
-    private WorkOrder currentWorkOrder;
     private User currentUser;
+    private WorkOrder workOrder;
 
     public void toggleDriveway(boolean isChecked) {
         if (Boolean.TRUE.equals(_drivewaySelected.getValue()) != isChecked) {
@@ -81,11 +79,6 @@ public class WorkOrderViewModel extends ViewModel {
         return lineItemMap;
     }
 
-    public Task<Void> createWorkOrder(WorkOrder workOrder) {
-        currentWorkOrder = workOrder;
-        return workOrderRepo.createWorkOrder(workOrder);
-    }
-
     public Task<User> retrieveCurrentUser() {
         return userRepo.fetchUserInDatabase().continueWith(task -> {
             currentUser = TaskUtils.getTaskResultOrThrow(task, "Failed to retrieve current user");
@@ -93,35 +86,61 @@ public class WorkOrderViewModel extends ViewModel {
         });
     }
 
-    public Task<StripeCustomerRepo.PaymentIntentResult> createPaymentIntentForWorkOrder(WorkOrder workOrder, String stripeCustomerId) {
-        return customerRepo.createPaymentIntent(workOrder, stripeCustomerId);
-    }
-
     public Task<List<Address>> retrieveCustomerAddresses(String userId) {
         return addressRepo.fetchUserAddresses(userId);
     }
 
-    public Task<StripeCommonRepo.CancellationResult> cleanUpFailedWorkOrder() {
-        if (currentWorkOrder == null) {
-            return TaskUtils.forIllegalStateException("No work order to delete");
+    public Task<Void> createWorkOrder(WorkOrder workOrder) {
+        return workOrderRepo.createWorkOrder(workOrder);
+    }
+
+    public Task<StripeCustomerRepo.PaymentIntentForCheckoutResult> createPaymentIntentForCheckout(String stripeCustomerId, Address jobAddress) {
+        Map<String, LineItem> lineItemMap = processLineItems();
+        Double totalAmount = _workOrderPrice.getValue();
+
+        if (currentUser == null) {
+            return TaskUtils.forIllegalStateException("No current user");
         }
-        return commonRepo.cancelPaymentIntent(currentWorkOrder.getWorkOrderId())
-                .continueWithTask(task ->
-                        workOrderRepo.deleteWorkOrder(currentWorkOrder.getWorkOrderId())
-                                .continueWith(deleteTask -> {
-                                    if (task.isSuccessful()) {
-                                        return task.getResult();
-                                    } else {
-                                        return new StripeCommonRepo.CancellationResult(false, "Failed to cancel payment intent");
-                                    }
-                                }));
+
+        WorkOrderStatus status = WorkOrderStatus.JOB_REQUESTED;
+
+        workOrder = new WorkOrder(
+                currentUser.getUserId(),
+                lineItemMap,
+                status,
+                totalAmount,
+                jobAddress
+        );
+
+        Map<String, Object> workOrderData = new HashMap<>();
+        workOrderData.put("customerId", currentUser.getUserId());
+        workOrderData.put("totalAmount", totalAmount);
+        workOrderData.put("jobAddress", jobAddress.toStripeAddressMap());
+        workOrderData.put("lineItemMap", convertLineItemsToMap(lineItemMap));
+
+        return customerRepo.createPaymentIntentForCheckout(workOrderData, stripeCustomerId);
+    }
+
+    private Map<String, Object> convertLineItemsToMap(Map<String, LineItem> lineItemMap) {
+        Map<String, Object> convertedMap = new HashMap<>();
+
+        for (Map.Entry<String, LineItem> entry : lineItemMap.entrySet()) {
+            LineItem item = entry.getValue();
+            Map<String, Object> itemMap = new HashMap<>();
+            itemMap.put("intItemCode", item.getIntItemCode());
+            itemMap.put("description", item.getDescription());
+            itemMap.put("amount", item.getAmount());
+            itemMap.put("taxCode", item.getTaxCode());
+            convertedMap.put(entry.getKey(), itemMap);
+        }
+        return convertedMap;
     }
 
     public User getCurrentUser() {
         return currentUser;
     }
 
-    public WorkOrder getCurrentWorkOrder() {
-        return currentWorkOrder;
+    public WorkOrder getWorkOrder() {
+        return workOrder;
     }
 }

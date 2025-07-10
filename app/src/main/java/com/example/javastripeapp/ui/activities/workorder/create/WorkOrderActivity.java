@@ -17,8 +17,7 @@ import com.example.javastripeapp.data.models.address.Address;
 import com.example.javastripeapp.data.models.user.AccountType;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
-import com.example.javastripeapp.data.models.workorder.WorkOrderStatus;
-import com.example.javastripeapp.data.models.workorder.line_item.LineItem;
+import com.example.javastripeapp.data.repos.StripeCustomerRepo;
 import com.example.javastripeapp.databinding.ActivityWorkOrderBinding;
 import com.example.javastripeapp.ui.activities.user.common.BaseActivity;
 import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
@@ -27,7 +26,6 @@ import com.stripe.android.paymentsheet.PaymentSheetResult;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class WorkOrderActivity extends BaseActivity {
 
@@ -36,6 +34,7 @@ public class WorkOrderActivity extends BaseActivity {
     private WorkOrderViewModel viewModel;
     private Address selectedAddress;
     private PaymentSheet paymentSheet;
+    private String pendingPaymentIntentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,101 +134,91 @@ public class WorkOrderActivity extends BaseActivity {
 
     private void validateOrder() {
         if (binding.swDriveway.isChecked() || binding.swSidewalk.isChecked() || binding.swWalkway.isChecked()) {
-            createWorkOrder();
+            createPaymentIntentAndShowPaymentSheet();
         } else {
             showToast("Please add a work order item");
         }
     }
 
-    private void createWorkOrder() {
+    private void createPaymentIntentAndShowPaymentSheet() {
         User currentUser = viewModel.getCurrentUser();
-        Map<String, LineItem> lineItemMap = viewModel.processLineItems();
-        WorkOrderStatus status = WorkOrderStatus.JOB_REQUESTED;
-        Double total = viewModel.workOrderPrice.getValue();
 
-        if (selectedAddress != null) {
-            WorkOrder newWorkOrder = new WorkOrder(
-                    currentUser.getUserId(),
-                    lineItemMap,
-                    status,
-                    total,
-                    selectedAddress);
-
-            if (currentUser.getStripeCustomerId() == null || currentUser.getStripeCustomerId().isEmpty()) {
-                showToast("Please contact support");
-                return;
-            }
-
-            viewModel.createWorkOrder(newWorkOrder)
-                    .addOnSuccessListener(unused -> {
-                        presentPaymentSheetForOrder(newWorkOrder);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e(TAG, "Failed to create work order", e);
-                        showToast("Failed to create order: " + e.getMessage());
-                    });
-        } else {
+        if (selectedAddress == null) {
             showToast("Please select an address");
+            return;
         }
-    }
 
-    private void presentPaymentSheetForOrder(WorkOrder workOrder) {
-        User currentUser = viewModel.getCurrentUser();
+        if (currentUser.getStripeCustomerId() == null || currentUser.getStripeCustomerId().isEmpty()) {
+            showToast("Please contact support");
+            return;
+        }
 
-        viewModel.createPaymentIntentForWorkOrder(workOrder, currentUser.getStripeCustomerId())
+        viewModel.createPaymentIntentForCheckout(currentUser.getStripeCustomerId(), selectedAddress)
                 .addOnSuccessListener(paymentIntentResult -> {
-                    Log.d(TAG, "Payment intent created, presenting PaymentSheet");
+                    pendingPaymentIntentId = paymentIntentResult.getPaymentIntentId();
 
-                    try {
-                        PaymentSheet.CustomerConfiguration customerConfig = new PaymentSheet.CustomerConfiguration(
-                                currentUser.getStripeCustomerId(),
-                                paymentIntentResult.getEphemeralKeySecret()
-                        );
-
-                        PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("ShovelHero")
-                                .customer(customerConfig)
-                                .allowsDelayedPaymentMethods(false)
-                                .build();
-
-                        paymentSheet.presentWithPaymentIntent(paymentIntentResult.getClientSecret(), configuration);
-
-                    } catch (Exception e) {
-                        Log.e(TAG, "Error presenting PaymentSheet", e);
-                        showToast("Failed to open payment sheet: " + e.getMessage());
-                        cleanupFailedOrder();
-                    }
+                    presentPaymentSheet(paymentIntentResult, currentUser);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Failed to create payment intent for PaymentSheet", e);
-                    showToast("Failed to setup payment: " + e.getMessage());
-                    cleanupFailedOrder();
+                    Log.e(TAG, "Failed to create payment intent", e);
+                    showToast("Failed to create payment intent: " + e.getMessage());
                 });
+    }
+
+    private void presentPaymentSheet(StripeCustomerRepo.PaymentIntentForCheckoutResult paymentIntentResult, User currentUser) {
+        try {
+            PaymentSheet.CustomerConfiguration customerConfig = new PaymentSheet.CustomerConfiguration(
+                    currentUser.getStripeCustomerId(),
+                    paymentIntentResult.getEphemeralKeySecret()
+            );
+
+            PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("ShovelHero")
+                    .customer(customerConfig)
+                    .allowsDelayedPaymentMethods(false)
+                    .build();
+
+            paymentSheet.presentWithPaymentIntent(paymentIntentResult.getClientSecret(), configuration);
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error presenting PaymentSheet", e);
+            showToast("Failed to open payment sheet: " + e.getMessage());
+        }
     }
 
     private void onPaymentSheetResult(PaymentSheetResult paymentSheetResult) {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
-            showToast("Order placed successfully!");
-
-            Intent intent = new Intent(this, CustomerProfileActivity.class);
-            startActivity(intent);
-            finish();
+            Log.d(TAG, "Payment completed successfully");
+            createWorkOrderAfterPayment();
 
         } else if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
+            Log.d(TAG, "Payment canceled");
             showToast("Payment canceled");
-            cleanupFailedOrder();
+            pendingPaymentIntentId = null;
 
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed failed) {
             Log.e(TAG, "Payment failed: " + failed.getError().getLocalizedMessage());
             showToast("Payment failed. Please try again.");
-            cleanupFailedOrder();
+            pendingPaymentIntentId = null;
         }
     }
 
-    private void cleanupFailedOrder() {
-        viewModel.cleanUpFailedWorkOrder().addOnSuccessListener(unused -> {
-            Log.d(TAG, "Work order cleanup successful");
+    private void createWorkOrderAfterPayment() {
+        if (pendingPaymentIntentId == null) {
+            Log.e(TAG, "No payment intent ID available for order creation");
+            showToast("Error: No payment information available");
+            return;
+        }
+        WorkOrder workOrder = viewModel.getWorkOrder();
+        workOrder.setPaymentIntentId(pendingPaymentIntentId);
+
+        viewModel.createWorkOrder(workOrder).addOnSuccessListener(unused -> {
+            Log.d(TAG, "Work order created successfully");
+            showToast("Work order created successfully");
+            Intent intent = new Intent(this, CustomerProfileActivity.class);
+            startActivity(intent);
         }).addOnFailureListener(e -> {
-            Log.e(TAG, "Failed to cleanup work order", e);
+            Log.e(TAG, "Failed to create work order", e);
+            showToast("Failed to create work order");
         });
     }
 
