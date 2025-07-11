@@ -52,6 +52,7 @@ public class ViewWorkOrderViewModel extends ViewModel {
             case ACCEPT_ORDER: {
                 updates.put("workOrderStatus", "JOB_ACCEPTED");
                 updates.put("providerId", user.getUserId());
+                updates.put("stripeAccountId", user.getStripeAccountId());
                 break;
             }
             case CANCEL_ORDER_CUSTOMER: {
@@ -61,6 +62,7 @@ public class ViewWorkOrderViewModel extends ViewModel {
             case CANCEL_ORDER_PROVIDER: {
                 updates.put("workOrderStatus", "JOB_REQUESTED");
                 updates.put("providerId", null);
+                updates.put("stripeAccountId", null);
                 break;
             }
             case FULFILL_ORDER: {
@@ -72,12 +74,12 @@ public class ViewWorkOrderViewModel extends ViewModel {
         return updates;
     }
 
-    public Task<Void> updateWorkOrderWithProvider() {
+    public Task<Void> capturePaymentForCompletedOrder() {
         WorkOrder currentOrder = getWorkOrder();
         String workOrderId = currentOrder.getWorkOrderId();
         String paymentIntentId = currentOrder.getPaymentIntentId();
 
-        return providerRepo.updatePaymentIntentWithProvider(workOrderId, paymentIntentId);
+        return providerRepo.capturePaymentForCompletedService(workOrderId, paymentIntentId);
     }
 
     public User getCurrentUser() {

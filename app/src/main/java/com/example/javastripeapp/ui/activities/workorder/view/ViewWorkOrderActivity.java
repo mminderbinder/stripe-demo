@@ -140,21 +140,17 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
 
     private void acceptOrder() {
         Intent intent = new Intent(this, ProviderProfileActivity.class);
-
         User currentUser = viewModel.getCurrentUser();
 
         if (currentUser.getStripeAccountId() == null || currentUser.getStripeAccountId().isEmpty()) {
             showToast("Please complete onboarding so you can accept orders");
             return;
         }
-
-        viewModel.updateWorkOrderWithProvider().addOnSuccessListener(unused -> {
-            showToast("Order accepted successfully");
-            startActivity(intent);
-            finish();
+        viewModel.updateOrder(WorkOrderAction.ACCEPT_ORDER).addOnSuccessListener(unused -> {
+            updateOrderAndRedirect(WorkOrderAction.ACCEPT_ORDER, intent);
         }).addOnFailureListener(e -> {
             Log.e(TAG, "Failed to accept work order", e);
-            showToast("Order accept failed. Please try again later");
+            showToast("Failed to accept order. Please try again later");
         });
     }
 
@@ -178,7 +174,14 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
 
     private void completeOrder() {
         Intent intent = new Intent(this, ProviderProfileActivity.class);
-        updateOrderAndRedirect(WorkOrderAction.FULFILL_ORDER, intent);
+        viewModel.capturePaymentForCompletedOrder().addOnSuccessListener(unused -> {
+            showToast("Order completed successfully");
+            startActivity(intent);
+            finish();
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Failed to complete work order", e);
+            showToast("Failed to complete order. Please try again later");
+        });
     }
 
     private void updateOrderAndRedirect(WorkOrderAction action, Intent intent) {

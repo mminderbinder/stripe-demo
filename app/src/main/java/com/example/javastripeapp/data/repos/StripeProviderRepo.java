@@ -98,7 +98,7 @@ public class StripeProviderRepo {
                 });
     }
 
-    public Task<Void> updatePaymentIntentWithProvider(String workOrderId, String paymentIntentId) {
+    public Task<Void> capturePaymentForCompletedService(String workOrderId, String paymentIntentId) {
         String idempotencyKey = UUID.randomUUID().toString();
 
         Map<String, Object> data = new HashMap<>();
@@ -106,13 +106,13 @@ public class StripeProviderRepo {
         data.put("paymentIntentId", paymentIntentId);
         data.put("idempotencyKey", idempotencyKey);
 
-        return functions.getHttpsCallable("updatePaymentIntentWithProvider")
+        return functions.getHttpsCallable("capturePaymentForCompletedService")
                 .call(data)
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) {
-                        return TaskUtils.forTaskExceptionMessage(task, "Failed to update payment intent with provider");
+                        return TaskUtils.forTaskExceptionMessage(task, "Failed to capture payment for completed service");
                     }
-                    Log.d(TAG, "Payment intent updated successfully");
+                    Log.d(TAG, "Payment intent captured successfully");
                     return Tasks.forResult(null);
                 });
     }
