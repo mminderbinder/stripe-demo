@@ -12,6 +12,7 @@ import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class StripeProviderRepo {
 
@@ -94,6 +95,25 @@ public class StripeProviderRepo {
                             Boolean.TRUE.equals(payoutsEnabled) && Boolean.TRUE.equals(detailsSubmitted);
 
                     return Tasks.forResult(isFullyOnboarded);
+                });
+    }
+
+    public Task<Void> updatePaymentIntentWithProvider(String workOrderId, String paymentIntentId) {
+        String idempotencyKey = UUID.randomUUID().toString();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("workOrderId", workOrderId);
+        data.put("paymentIntentId", paymentIntentId);
+        data.put("idempotencyKey", idempotencyKey);
+
+        return functions.getHttpsCallable("updatePaymentIntentWithProvider")
+                .call(data)
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        return TaskUtils.forTaskExceptionMessage(task, "Failed to update payment intent with provider");
+                    }
+                    Log.d(TAG, "Payment intent updated successfully");
+                    return Tasks.forResult(null);
                 });
     }
 }

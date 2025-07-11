@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.javastripeapp.data.models.user.User;
 import com.example.javastripeapp.data.models.workorder.WorkOrder;
 import com.example.javastripeapp.data.models.workorder.WorkOrderAction;
+import com.example.javastripeapp.data.repos.StripeProviderRepo;
 import com.example.javastripeapp.data.repos.UserRepo;
 import com.example.javastripeapp.data.repos.WorkOrderRepo;
 import com.example.javastripeapp.utils.TaskUtils;
@@ -18,6 +19,7 @@ public class ViewWorkOrderViewModel extends ViewModel {
     private static final String TAG = "ViewWorkOrderViewModel";
     private final WorkOrderRepo workOrderRepo = new WorkOrderRepo();
     private final UserRepo userRepo = new UserRepo();
+    private final StripeProviderRepo providerRepo = new StripeProviderRepo();
     private User currentUser;
     private WorkOrder workOrder;
 
@@ -68,6 +70,14 @@ public class ViewWorkOrderViewModel extends ViewModel {
         }
         updates.put("updatedAt", ServerValue.TIMESTAMP);
         return updates;
+    }
+
+    public Task<Void> updateWorkOrderWithProvider() {
+        WorkOrder currentOrder = getWorkOrder();
+        String workOrderId = currentOrder.getWorkOrderId();
+        String paymentIntentId = currentOrder.getPaymentIntentId();
+
+        return providerRepo.updatePaymentIntentWithProvider(workOrderId, paymentIntentId);
     }
 
     public User getCurrentUser() {

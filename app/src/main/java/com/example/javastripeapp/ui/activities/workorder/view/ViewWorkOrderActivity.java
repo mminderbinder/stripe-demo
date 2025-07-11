@@ -140,7 +140,22 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
 
     private void acceptOrder() {
         Intent intent = new Intent(this, ProviderProfileActivity.class);
-        updateOrderAndRedirect(WorkOrderAction.ACCEPT_ORDER, intent);
+
+        User currentUser = viewModel.getCurrentUser();
+
+        if (currentUser.getStripeAccountId() == null || currentUser.getStripeAccountId().isEmpty()) {
+            showToast("Please complete onboarding so you can accept orders");
+            return;
+        }
+
+        viewModel.updateWorkOrderWithProvider().addOnSuccessListener(unused -> {
+            showToast("Order accepted successfully");
+            startActivity(intent);
+            finish();
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Failed to accept work order", e);
+            showToast("Order accept failed. Please try again later");
+        });
     }
 
     private void cancelOrder() {
@@ -176,7 +191,7 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
             showToast("Order update failed. Please try again later");
         });
     }
-    
+
     private void hideAllButtons() {
         binding.btnAccept.setVisibility(View.GONE);
         binding.btnCancel.setVisibility(View.GONE);
