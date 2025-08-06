@@ -99,7 +99,6 @@ public class StripeCustomerRepo {
                     if (!task.isSuccessful()) {
                         return TaskUtils.forTaskExceptionMessage(task, "Failed to create payment intent for checkout");
                     }
-
                     @SuppressWarnings("unchecked")
                     Map<String, Object> response = (Map<String, Object>) task.getResult().getData();
 

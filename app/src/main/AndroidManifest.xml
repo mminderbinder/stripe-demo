@@ -16,6 +16,9 @@
         android:theme="@style/Theme.JavaStripeApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.refund.RefundActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.user.common.BaseActivity"
             android:exported="false" />
         <activity
@@ -25,7 +28,7 @@
             android:name=".ui.activities.user.provider.DashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.customer.OrderHistoryActivity"
+            android:name=".ui.activities.user.customer.RefundActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.user.customer.PaymentMethodsActivity"
@@ -49,8 +52,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="com.example.javastripeapp"
-                    android:host="onboarding" />
+                    android:host="onboarding"
+                    android:scheme="com.example.javastripeapp" />
             </intent-filter>
         </activity>
         <activity

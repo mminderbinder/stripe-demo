@@ -22,6 +22,7 @@ import com.example.javastripeapp.data.models.workorder.WorkOrderAction;
 import com.example.javastripeapp.data.models.workorder.WorkOrderStatus;
 import com.example.javastripeapp.databinding.ActivityViewWorkOrderBinding;
 import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
+import com.example.javastripeapp.ui.activities.user.customer.RefundActivity;
 import com.example.javastripeapp.ui.activities.user.provider.ProviderProfileActivity;
 import com.example.javastripeapp.utils.DateUtils;
 
@@ -61,6 +62,7 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
         binding.btnAccept.setOnClickListener(v -> acceptOrder());
         binding.btnCancel.setOnClickListener(v -> cancelOrder());
         binding.btnDone.setOnClickListener(v -> completeOrder());
+        binding.btnRefund.setOnClickListener(v -> requestRefund());
     }
 
     private void retrieveWorkOrder(String workOrderId) {
@@ -118,6 +120,10 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
                     binding.btnCancel.setVisibility(View.VISIBLE);
                     break;
                 }
+                case JOB_FULFILLED: {
+                    binding.btnRefund.setVisibility(View.VISIBLE);
+                    break;
+                }
                 default:
                     hideAllButtons();
             }
@@ -136,6 +142,13 @@ public class ViewWorkOrderActivity extends AppCompatActivity {
                     hideAllButtons();
             }
         }
+    }
+
+    private void requestRefund() {
+        WorkOrder workOrder = viewModel.getWorkOrder();
+        Intent intent = new Intent(this, RefundActivity.class);
+        intent.putExtra("WO_ID", workOrder.getWorkOrderId());
+        startActivity(intent);
     }
 
     private void acceptOrder() {

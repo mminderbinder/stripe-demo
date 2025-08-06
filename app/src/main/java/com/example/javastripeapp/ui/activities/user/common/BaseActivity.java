@@ -15,7 +15,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.models.user.AccountType;
 import com.example.javastripeapp.ui.activities.user.customer.CustomerProfileActivity;
-import com.example.javastripeapp.ui.activities.user.customer.OrderHistoryActivity;
 import com.example.javastripeapp.ui.activities.user.customer.PaymentMethodsActivity;
 import com.example.javastripeapp.ui.activities.user.provider.DashboardActivity;
 import com.example.javastripeapp.ui.activities.user.provider.PayoutsActivity;
@@ -91,11 +90,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else if (itemId == R.id.menu_payment_methods) {
             if (!"PaymentMethodsActivity".equals(currentClassName)) {
                 startActivity(new Intent(this, PaymentMethodsActivity.class));
-                return true;
-            }
-        } else if (itemId == R.id.menu_order_history) {
-            if (!"OrderHistoryActivity".equals(currentClassName)) {
-                startActivity(new Intent(this, OrderHistoryActivity.class));
                 return true;
             }
         }
