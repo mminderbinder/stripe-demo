@@ -20,7 +20,7 @@ import com.example.javastripeapp.data.WorkOrder;
 import com.example.javastripeapp.data.repository.StripeCustomerRepo;
 import com.example.javastripeapp.databinding.ActivityWorkOrderBinding;
 import com.example.javastripeapp.ui.BaseActivity;
-import com.example.javastripeapp.ui.profile.CustomerProfileActivity;
+import com.example.javastripeapp.ui.profile.customer.CustomerProfileActivity;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
 

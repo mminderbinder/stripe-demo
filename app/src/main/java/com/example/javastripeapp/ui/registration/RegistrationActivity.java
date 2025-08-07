@@ -17,8 +17,8 @@ import com.example.javastripeapp.data.AccountType;
 import com.example.javastripeapp.data.User;
 import com.example.javastripeapp.databinding.ActivityRegistrationBinding;
 import com.example.javastripeapp.ui.login.MainActivity;
-import com.example.javastripeapp.ui.profile.CustomerProfileActivity;
-import com.example.javastripeapp.ui.profile.ProviderProfileActivity;
+import com.example.javastripeapp.ui.profile.customer.CustomerProfileActivity;
+import com.example.javastripeapp.ui.profile.provider.ProviderProfileActivity;
 import com.example.javastripeapp.utils.TaskUtils;
 
 public class RegistrationActivity extends AppCompatActivity {

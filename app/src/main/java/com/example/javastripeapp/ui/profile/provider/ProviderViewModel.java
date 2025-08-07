@@ -1,4 +1,4 @@
-package com.example.javastripeapp.ui.profile;
+package com.example.javastripeapp.ui.profile.provider;
 
 import android.util.Log;
 
@@ -10,6 +10,7 @@ import com.example.javastripeapp.data.Address;
 import com.example.javastripeapp.data.OnboardingStatus;
 import com.example.javastripeapp.data.User;
 import com.example.javastripeapp.data.repository.StripeProviderRepo;
+import com.example.javastripeapp.ui.profile.BaseProfileViewModel;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;

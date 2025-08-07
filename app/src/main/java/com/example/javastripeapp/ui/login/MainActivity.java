@@ -15,8 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.javastripeapp.R;
 import com.example.javastripeapp.data.AccountType;
 import com.example.javastripeapp.databinding.ActivityMainBinding;
-import com.example.javastripeapp.ui.profile.CustomerProfileActivity;
-import com.example.javastripeapp.ui.profile.ProviderProfileActivity;
+import com.example.javastripeapp.ui.profile.customer.CustomerProfileActivity;
+import com.example.javastripeapp.ui.profile.provider.ProviderProfileActivity;
 import com.example.javastripeapp.ui.registration.RegistrationActivity;
 import com.google.firebase.auth.FirebaseUser;
 

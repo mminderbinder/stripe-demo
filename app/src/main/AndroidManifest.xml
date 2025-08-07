@@ -43,7 +43,7 @@
             android:name=".ui.workorder.ViewWorkOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.profile.ProviderProfileActivity"
+            android:name=".ui.profile.provider.ProviderProfileActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -60,7 +60,7 @@
             android:name=".ui.workorder.WorkOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.profile.CustomerProfileActivity"
+            android:name=".ui.profile.customer.CustomerProfileActivity"
             android:exported="false" />
         <activity
             android:name=".ui.registration.RegistrationActivity"

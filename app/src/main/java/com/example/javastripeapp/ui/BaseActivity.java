@@ -17,8 +17,8 @@ import com.example.javastripeapp.data.AccountType;
 import com.example.javastripeapp.ui.dashboard.DashboardActivity;
 import com.example.javastripeapp.ui.paymentmethods.PaymentMethodsActivity;
 import com.example.javastripeapp.ui.payouts.PayoutsActivity;
-import com.example.javastripeapp.ui.profile.CustomerProfileActivity;
-import com.example.javastripeapp.ui.profile.ProviderProfileActivity;
+import com.example.javastripeapp.ui.profile.customer.CustomerProfileActivity;
+import com.example.javastripeapp.ui.profile.provider.ProviderProfileActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

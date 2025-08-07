@@ -21,8 +21,8 @@ import com.example.javastripeapp.data.WorkOrder;
 import com.example.javastripeapp.data.WorkOrderAction;
 import com.example.javastripeapp.data.WorkOrderStatus;
 import com.example.javastripeapp.databinding.ActivityViewWorkOrderBinding;
-import com.example.javastripeapp.ui.profile.CustomerProfileActivity;
-import com.example.javastripeapp.ui.profile.ProviderProfileActivity;
+import com.example.javastripeapp.ui.profile.customer.CustomerProfileActivity;
+import com.example.javastripeapp.ui.profile.provider.ProviderProfileActivity;
 import com.example.javastripeapp.ui.refunds.RefundActivity;
 import com.example.javastripeapp.utils.DateUtils;
 

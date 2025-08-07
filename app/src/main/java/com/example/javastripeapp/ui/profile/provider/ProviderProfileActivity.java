@@ -1,4 +1,4 @@
-package com.example.javastripeapp.ui.profile;
+package com.example.javastripeapp.ui.profile.provider;
 
 import android.content.Intent;
 import android.net.Uri;
