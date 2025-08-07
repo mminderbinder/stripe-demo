@@ -19,31 +19,31 @@
             android:name=".ui.activities.refund.RefundActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.common.BaseActivity"
+            android:name=".ui.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.provider.PayoutsActivity"
+            android:name=".ui.payouts.PayoutsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.provider.DashboardActivity"
+            android:name=".ui.dashboard.DashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.customer.RefundActivity"
+            android:name=".ui.refunds.RefundActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.customer.PaymentMethodsActivity"
+            android:name=".ui.paymentmethods.PaymentMethodsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.common.MyCurrentJobsActivity"
+            android:name=".ui.jobs.MyCurrentJobsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.workorder.list.ListWorkOrdersActivity"
+            android:name=".ui.workorder.ListWorkOrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.workorder.view.ViewWorkOrderActivity"
+            android:name=".ui.workorder.ViewWorkOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.provider.ProviderProfileActivity"
+            android:name=".ui.profile.ProviderProfileActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -57,16 +57,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.workorder.create.WorkOrderActivity"
+            android:name=".ui.workorder.WorkOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.user.customer.CustomerProfileActivity"
+            android:name=".ui.profile.CustomerProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.registration.RegistrationActivity"
+            android:name=".ui.registration.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.login.MainActivity"
+            android:name=".ui.login.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
