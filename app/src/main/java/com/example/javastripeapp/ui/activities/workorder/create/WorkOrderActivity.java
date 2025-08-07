@@ -155,7 +155,7 @@ public class WorkOrderActivity extends BaseActivity {
 
         viewModel.createPaymentIntentForCheckout(currentUser.getStripeCustomerId(), selectedAddress)
                 .addOnSuccessListener(paymentIntentResult -> {
-                    pendingPaymentIntentId = paymentIntentResult.getPaymentIntentId();
+                    pendingPaymentIntentId = paymentIntentResult.paymentIntentId();
 
                     presentPaymentSheet(paymentIntentResult, currentUser);
                 })
@@ -169,7 +169,7 @@ public class WorkOrderActivity extends BaseActivity {
         try {
             PaymentSheet.CustomerConfiguration customerConfig = new PaymentSheet.CustomerConfiguration(
                     currentUser.getStripeCustomerId(),
-                    paymentIntentResult.getEphemeralKeySecret()
+                    paymentIntentResult.ephemeralKeySecret()
             );
 
             PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("ShovelHero")
@@ -177,7 +177,7 @@ public class WorkOrderActivity extends BaseActivity {
                     .allowsDelayedPaymentMethods(false)
                     .build();
 
-            paymentSheet.presentWithPaymentIntent(paymentIntentResult.getClientSecret(), configuration);
+            paymentSheet.presentWithPaymentIntent(paymentIntentResult.clientSecret(), configuration);
 
         } catch (Exception e) {
             Log.e(TAG, "Error presenting PaymentSheet", e);

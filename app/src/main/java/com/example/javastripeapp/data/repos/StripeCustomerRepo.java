@@ -3,6 +3,7 @@ package com.example.javastripeapp.data.repos;
 import android.util.Log;
 
 import com.example.javastripeapp.data.models.user.User;
+import com.example.javastripeapp.data.models.workorder.RefundStatus;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -119,6 +120,62 @@ public class StripeCustomerRepo {
                 });
     }
 
+    public Task<RefundResult> requestRefundFromPlatform(String workOrderId) {
+        String idempotencyKey = UUID.randomUUID().toString();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("workOrderId", workOrderId);
+        data.put("idempotencyKey", idempotencyKey);
+
+        return functions.getHttpsCallable("queueRefundFromPlatform")
+                .call(data)
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        return TaskUtils.forTaskExceptionMessage(task, "Failed to process refund request");
+                    }
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> response = (Map<String, Object>) task.getResult().getData();
+
+                    if (response == null) {
+                        return TaskUtils.forIllegalStateException("Refund response is null");
+                    }
+                    Boolean success = (Boolean) response.get("success");
+                    if (!Boolean.TRUE.equals(success)) {
+                        return TaskUtils.forIllegalStateException("Refund request failed");
+                    }
+                    String status = (String) response.get("status");
+                    String message = (String) response.get("message");
+
+                    if ("processed".equals(status)) {
+                        String refundId = (String) response.get("refundId");
+                        Number refundAmountNumber = (Number) response.get("refundAmount");
+                        int refundAmount = refundAmountNumber != null ? refundAmountNumber.intValue() : 0;
+
+                        Log.d(TAG, "Refund processed immediately");
+                        return Tasks.forResult(new RefundResult(
+                                refundId,
+                                refundAmount,
+                                RefundStatus.PROCESSED,
+                                message,
+                                null
+                        ));
+                    } else if ("queued".equals(status)) {
+                        String refundQueueId = (String) response.get("refundQueueId");
+
+                        Log.d(TAG, "Refund queued for later processing");
+                        return Tasks.forResult(new RefundResult(
+                                null,
+                                0,
+                                RefundStatus.QUEUED,
+                                message,
+                                refundQueueId
+                        ));
+                    } else {
+                        return TaskUtils.forIllegalStateException("Unknown refund status: " + status);
+                    }
+                });
+    }
+
     public static class CustomerSheetSetupResult {
         private final String setUpIntentClientSecret;
         private final String ephemeralKeySecret;
@@ -143,27 +200,51 @@ public class StripeCustomerRepo {
         }
     }
 
-    public static class PaymentIntentForCheckoutResult {
-        private final String paymentIntentId;
-        private final String clientSecret;
-        private final String ephemeralKeySecret;
+    public record PaymentIntentForCheckoutResult(String paymentIntentId, String clientSecret,
+                                                 String ephemeralKeySecret) {
+    }
 
-        public PaymentIntentForCheckoutResult(String paymentIntentId, String clientSecret, String ephemeralKeySecret) {
-            this.paymentIntentId = paymentIntentId;
-            this.clientSecret = clientSecret;
-            this.ephemeralKeySecret = ephemeralKeySecret;
+    public static class RefundResult {
+        private final String refundId;
+        private final int refundAmount;
+        private final RefundStatus status;
+        private final String message;
+        private final String refundQueueId;
+
+        public RefundResult(String refundId, int refundAmount, RefundStatus status, String message, String refundQueueId) {
+            this.refundId = refundId;
+            this.refundAmount = refundAmount;
+            this.status = status;
+            this.message = message;
+            this.refundQueueId = refundQueueId;
         }
 
-        public String getPaymentIntentId() {
-            return paymentIntentId;
+        public String getRefundId() {
+            return refundId;
         }
 
-        public String getClientSecret() {
-            return clientSecret;
+        public int getRefundAmount() {
+            return refundAmount;
         }
 
-        public String getEphemeralKeySecret() {
-            return ephemeralKeySecret;
+        public RefundStatus getStatus() {
+            return status;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getRefundQueueId() {
+            return refundQueueId;
+        }
+
+        public boolean isProcessedImmediately() {
+            return status == RefundStatus.PROCESSED && refundId != null;
+        }
+
+        public boolean isQueued() {
+            return status == RefundStatus.QUEUED && refundQueueId != null;
         }
     }
 }

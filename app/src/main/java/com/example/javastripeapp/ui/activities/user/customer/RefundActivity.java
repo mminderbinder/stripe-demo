@@ -1,5 +1,6 @@
 package com.example.javastripeapp.ui.activities.user.customer;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,11 +75,33 @@ public class RefundActivity extends BaseActivity {
                 binding.tvSidewalk.setText(lineItem.getDescription());
             }
             binding.tvTotal.setText("$" + workOrder.getTotalAmount());
+
+            requestRefund();
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private void requestRefund() {
+        binding.btnRequest.setOnClickListener(v -> {
+            binding.btnRequest.setEnabled(false);
+            String workOrderId = viewModel.getCurrentOrder().getWorkOrderId();
 
+            viewModel.requestRefundFromPlatform(workOrderId).addOnSuccessListener(refundResult -> {
+                if (refundResult.isProcessedImmediately()) {
+                    Toast.makeText(this, "Refund processed immediately", Toast.LENGTH_LONG).show();
+                } else if (refundResult.isQueued()) {
+                    Toast.makeText(this, "Refund request has been submitted", Toast.LENGTH_LONG).show();
+                }
+                Intent intent = new Intent(this, CustomerProfileActivity.class);
+                startActivity(intent);
+                finish();
+
+            }).addOnFailureListener(e -> {
+                binding.btnRequest.setEnabled(true);
+                Log.e(TAG, "Refund request failed", e);
+                Toast.makeText(this, "Refund request failed. Please try again later", Toast.LENGTH_LONG).show();
+            });
+        });
     }
 
     @Override
