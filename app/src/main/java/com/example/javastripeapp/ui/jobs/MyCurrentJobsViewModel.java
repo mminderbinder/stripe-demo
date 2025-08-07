@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.javastripeapp.data.User;
 import com.example.javastripeapp.data.WorkOrder;
-import com.example.javastripeapp.data.repository.UserRepo;
-import com.example.javastripeapp.data.repository.WorkOrderRepo;
+import com.example.javastripeapp.data.repository.firebase.UserRepo;
+import com.example.javastripeapp.data.repository.firebase.WorkOrderRepo;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;

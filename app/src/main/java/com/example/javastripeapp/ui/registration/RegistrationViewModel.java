@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.javastripeapp.data.AccountType;
 import com.example.javastripeapp.data.User;
-import com.example.javastripeapp.data.repository.AddressRepo;
-import com.example.javastripeapp.data.repository.AuthRepo;
-import com.example.javastripeapp.data.repository.UserRepo;
+import com.example.javastripeapp.data.repository.firebase.AddressRepo;
+import com.example.javastripeapp.data.repository.firebase.AuthRepo;
+import com.example.javastripeapp.data.repository.firebase.UserRepo;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 

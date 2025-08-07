@@ -3,8 +3,8 @@ package com.example.javastripeapp.ui.login;
 import androidx.lifecycle.ViewModel;
 
 import com.example.javastripeapp.data.User;
-import com.example.javastripeapp.data.repository.AuthRepo;
-import com.example.javastripeapp.data.repository.UserRepo;
+import com.example.javastripeapp.data.repository.firebase.AuthRepo;
+import com.example.javastripeapp.data.repository.firebase.UserRepo;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;

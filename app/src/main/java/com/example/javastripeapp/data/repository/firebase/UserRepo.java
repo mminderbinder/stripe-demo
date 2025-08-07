@@ -1,7 +1,8 @@
-package com.example.javastripeapp.data.repository;
+package com.example.javastripeapp.data.repository.firebase;
 
 import com.example.javastripeapp.data.AccountType;
 import com.example.javastripeapp.data.User;
+import com.example.javastripeapp.data.repository.stripe.StripeCustomerRepo;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;

@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.example.javastripeapp.data.WorkOrder;
-import com.example.javastripeapp.data.repository.WorkOrderRepo;
+import com.example.javastripeapp.data.repository.firebase.WorkOrderRepo;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 

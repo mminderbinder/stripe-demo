@@ -10,10 +10,10 @@ import com.example.javastripeapp.data.LineItemType;
 import com.example.javastripeapp.data.User;
 import com.example.javastripeapp.data.WorkOrder;
 import com.example.javastripeapp.data.WorkOrderStatus;
-import com.example.javastripeapp.data.repository.AddressRepo;
-import com.example.javastripeapp.data.repository.StripeCustomerRepo;
-import com.example.javastripeapp.data.repository.UserRepo;
-import com.example.javastripeapp.data.repository.WorkOrderRepo;
+import com.example.javastripeapp.data.repository.firebase.AddressRepo;
+import com.example.javastripeapp.data.repository.stripe.StripeCustomerRepo;
+import com.example.javastripeapp.data.repository.firebase.UserRepo;
+import com.example.javastripeapp.data.repository.firebase.WorkOrderRepo;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 

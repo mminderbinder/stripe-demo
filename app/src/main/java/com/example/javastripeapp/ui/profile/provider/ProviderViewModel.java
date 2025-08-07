@@ -9,7 +9,7 @@ import com.example.javastripeapp.data.AccountType;
 import com.example.javastripeapp.data.Address;
 import com.example.javastripeapp.data.OnboardingStatus;
 import com.example.javastripeapp.data.User;
-import com.example.javastripeapp.data.repository.StripeProviderRepo;
+import com.example.javastripeapp.data.repository.stripe.StripeProviderRepo;
 import com.example.javastripeapp.ui.profile.BaseProfileViewModel;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;

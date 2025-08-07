@@ -1,4 +1,4 @@
-package com.example.javastripeapp.data.repository;
+package com.example.javastripeapp.data.repository.firebase;
 
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;

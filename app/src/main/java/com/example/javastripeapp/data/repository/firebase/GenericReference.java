@@ -1,4 +1,4 @@
-package com.example.javastripeapp.data.repository;
+package com.example.javastripeapp.data.repository.firebase;
 
 import android.util.Log;
 
