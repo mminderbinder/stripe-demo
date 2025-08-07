@@ -3,8 +3,8 @@ package com.example.javastripeapp.ui.paymentmethods;
 import androidx.lifecycle.ViewModel;
 
 import com.example.javastripeapp.data.User;
-import com.example.javastripeapp.data.database.StripeCustomerRepo;
-import com.example.javastripeapp.data.database.UserRepo;
+import com.example.javastripeapp.data.repository.StripeCustomerRepo;
+import com.example.javastripeapp.data.repository.UserRepo;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 

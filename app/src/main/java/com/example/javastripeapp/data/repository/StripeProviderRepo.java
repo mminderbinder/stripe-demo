@@ -1,4 +1,4 @@
-package com.example.javastripeapp.data.database;
+package com.example.javastripeapp.data.repository;
 
 import android.util.Log;
 

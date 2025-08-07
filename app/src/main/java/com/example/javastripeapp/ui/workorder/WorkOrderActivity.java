@@ -17,7 +17,7 @@ import com.example.javastripeapp.data.AccountType;
 import com.example.javastripeapp.data.Address;
 import com.example.javastripeapp.data.User;
 import com.example.javastripeapp.data.WorkOrder;
-import com.example.javastripeapp.data.database.StripeCustomerRepo;
+import com.example.javastripeapp.data.repository.StripeCustomerRepo;
 import com.example.javastripeapp.databinding.ActivityWorkOrderBinding;
 import com.example.javastripeapp.ui.BaseActivity;
 import com.example.javastripeapp.ui.profile.CustomerProfileActivity;

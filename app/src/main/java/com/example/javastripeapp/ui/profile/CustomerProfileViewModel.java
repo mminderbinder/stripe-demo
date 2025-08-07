@@ -2,7 +2,7 @@ package com.example.javastripeapp.ui.profile;
 
 import com.example.javastripeapp.data.Address;
 import com.example.javastripeapp.data.User;
-import com.example.javastripeapp.data.database.UserRepo;
+import com.example.javastripeapp.data.repository.UserRepo;
 import com.example.javastripeapp.utils.TaskUtils;
 import com.google.android.gms.tasks.Task;
 
